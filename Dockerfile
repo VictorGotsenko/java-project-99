@@ -1,9 +1,11 @@
-FROM gradle:8.7-jdk21
+FROM eclipse-temurin:21-jdk
 
 WORKDIR /
 
 COPY / .
 
-RUN gradle installDist
+RUN ./gradlew --no-daemon clean build
 
-CMD ./build/install/app/bin/app
+ENV JAVA_OPTS="-Xmx512M -Xms512M"
+
+CMD ["java", "-jar", "build/libs/java-project-99-0.0.1-SNAPSHOT.jar"]
