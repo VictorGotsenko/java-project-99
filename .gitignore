@@ -1,15 +1,8 @@
-# Ignore Gradle dir
-.gradle
-gradle/
-gradlew
-gradlew.bat
-settings.gradle.kts
-build.gradle.kts
-
 HELP.md
 
 # Ignore Gradle build output directory
-build/
+.gradle
+build
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
@@ -44,5 +37,4 @@ out/
 /dist/
 /nbdist/
 /.nb-gradle/
-
 
