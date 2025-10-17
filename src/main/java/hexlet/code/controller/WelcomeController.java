@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class WelcomeController {
 
+    /**
+     *
+     * @return String
+     */
     @GetMapping("/welcome")
     @ResponseStatus(HttpStatus.OK)
     public String welcome() {
