@@ -4,3 +4,13 @@ spring:
   output:
     ansi:
       enabled: always
+
+  profiles:
+    #active: dev
+    active: prod
+
+  jpa:
+    show-sql: true
+    hibernate:
+      format_sql: true
+      ddl-auto: update

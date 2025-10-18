@@ -1,0 +1,22 @@
+spring:
+#profiles: development
+  datasource:
+    #url: jdbc:h2:file:./data/devdb;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1 # work
+    #url: jdbc:h2:file:./data/devdb;DB_CLOSE_ON_EXIT=FALSE #;AUTO_SERVER=TRUE
+    #url: jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;
+    driver-class-name: org.h2.Driver   # общий драйвер (будет переопределен для prod)
+    username: sa
+    password:
+
+  #доступ к консоли H2 из приложения
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: true
+
+jpa:
+  hibernate:
+  ddl-auto: update
+  database-platform: org.hibernate.dialect.H2Dialectue

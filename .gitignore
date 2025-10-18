@@ -1,4 +1,5 @@
 HELP.md
+data/
 
 # Ignore Gradle build output directory
 .gradle
@@ -38,3 +39,4 @@ out/
 /nbdist/
 /.nb-gradle/
 
+notes_prj99
