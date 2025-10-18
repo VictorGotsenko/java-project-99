@@ -1,6 +1,7 @@
 spring:
 #profiles: production
   datasource:
+    driver-class-name: org.postgresql.Driver
 #переменная ${JDBC_DATABASE_URL}
 #jdbc:postgresql://dpg-d34jj27fte5s73cl8350-a:5432/pagevalidarordb?password=f1CZp6XrqaLGTE5yj0ENt8jtQqPj10dy&user=pagevalidarordb_user
     #url: ${DB_URL:jdbc:postgresql://localhost:5432/myapp}
@@ -9,9 +10,14 @@ spring:
     #url: jdbc:postgresql://localhost:5432/project
     #username: db_user
     #password:
-    url: ${JDBC_DATABASE_URL}
+    #url: ${JDBC_DATABASE_URL}
+    #username: ${USERNAME}
+    #password: ${PASSWORD}
+    url: jdbc:postgresql://dpg-d3psjcer433s73am7q8g-a:5432/prj99
     username: ${USERNAME}
     password: ${PASSWORD}
-    driver-class-name: org.postgresql.Driver
+
+
+
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
