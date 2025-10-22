@@ -4,6 +4,6 @@ WORKDIR /
 
 COPY / .
 
-RUN ["./gradlew", "clean", "build"]
+RUN ./gradlew --no-daemon clean build
 
 CMD ["java", "-jar", "build/libs/java-project-99-0.0.1-SNAPSHOT.jar"]
