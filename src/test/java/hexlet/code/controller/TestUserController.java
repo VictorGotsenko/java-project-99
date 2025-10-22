@@ -63,7 +63,6 @@ public class TestUserController {
         userRepository.save(userData);
 
         token = jwt().jwt(builder -> builder.subject(userData.getEmail()));
-
     }
 
     @Test
