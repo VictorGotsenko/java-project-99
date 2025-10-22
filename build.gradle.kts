@@ -91,6 +91,11 @@ tasks.jacocoTestReport {
     }
 }
 
+tasks.withType<JavaCompile>(){
+    // "--warning-mode all",
+    options.compilerArgs.addAll(listOf("-Xlint:deprecation", "-Xlint:unchecked"))
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
 }

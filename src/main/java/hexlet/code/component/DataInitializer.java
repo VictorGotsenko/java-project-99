@@ -20,7 +20,6 @@ public class DataInitializer implements ApplicationRunner {
     private PasswordEncoder passwordEncoder;
 
     /**
-     *
      * @param args
      */
     @Override
@@ -29,12 +28,14 @@ public class DataInitializer implements ApplicationRunner {
     }
 
     private void createAdmin() {
-        User userData = new User();
-        userData.setEmail("hexlet@example.com");
-        String passDigist = passwordEncoder.encode("qwerty");
-        userData.setPasswordDigest(passDigist);
-        userData.setFirstName("admin");
-        userData.setLastName("root");
-        userRepository.save(userData);
+        if (userRepository.findByEmail("hexlet@example.com").isEmpty()) {
+            User userData = new User();
+            userData.setEmail("hexlet@example.com");
+            String passDigist = passwordEncoder.encode("qwerty");
+            userData.setPasswordDigest(passDigist);
+            userData.setFirstName("admin");
+            userData.setLastName("root");
+            userRepository.save(userData);
+        }
     }
 }

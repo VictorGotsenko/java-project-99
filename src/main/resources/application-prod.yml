@@ -13,9 +13,10 @@ spring:
     #url: ${JDBC_DATABASE_URL}
     #username: ${USERNAME}
     #password: ${PASSWORD}
+    #// for deploy
     url: jdbc:postgresql://dpg-d3psjcer433s73am7q8g-a:5432/prj99
     username: ${USERNAME}
     password: ${PASSWORD}
 
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect

@@ -74,7 +74,6 @@ public class TestUserController {
 
     }
 
-
     @Test
     public void testWelcome() throws Exception {
         MvcResult result = mockMvc.perform(get("/welcome"))
