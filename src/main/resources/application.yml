@@ -6,6 +6,7 @@ spring:
       enabled: always
 
   profiles:
+    #default: dev
     #active: dev
     active: prod
 
@@ -14,3 +15,7 @@ spring:
     hibernate:
       format_sql: true
       ddl-auto: update
+
+rsa:
+  private-key: classpath:certs/private.pem
+  public-key: classpath:certs/public.pem

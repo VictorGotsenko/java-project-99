@@ -33,6 +33,26 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-devtools")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+    implementation("net.datafaker:datafaker:2.4.4")
+
+    // модуль jackson-databind-nullable
+    implementation("org.openapitools:jackson-databind-nullable:0.2.6")
+
+
+
+
+    // конфиг  Mapstruct не работает с классами, в которых используется lombok
+    // https://ru.stackoverflow.com/questions/1286369
+    compileOnly("org.projectlombok:lombok:1.18.38")
+    compileOnly("org.mapstruct:mapstruct:1.5.5.Final")
+    annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
+    annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
+    annotationProcessor("org.projectlombok:lombok:1.18.38")
+
 
     //    runtimeOnly("com.h2database:h2")
     runtimeOnly("com.h2database:h2:2.3.232")
@@ -41,10 +61,18 @@ dependencies {
     // for  driver class: org.postgresql.Driver
     implementation("org.postgresql:postgresql:42.7.7")
 
-
-
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    testCompileOnly("org.projectlombok:lombok:1.18.38")
+    testAnnotationProcessor("org.projectlombok:lombok:1.18.38")
+    testAnnotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
+
+    // test JSON struct
+    testImplementation("net.javacrumbs.json-unit:json-unit-assertj:4.1.1")
+    // Instacio
+    testImplementation("org.instancio:instancio-junit:5.5.1")
 
 }
 
