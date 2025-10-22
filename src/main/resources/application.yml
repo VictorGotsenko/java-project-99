@@ -6,7 +6,7 @@ spring:
       enabled: always
 
   profiles:
-    #default: dev
+    ##default: dev
     #active: dev
     active: prod
 
