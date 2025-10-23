@@ -1,9 +1,19 @@
+---
+logging:
+  level:
+    root: WARN
+    org:
+      springframework:
+        # web: DEBUG
+        security: DEBUG
+
 spring:
   main:
     banner-mode: "off"
   output:
     ansi:
       enabled: always
+
 
   profiles:
     ##default: dev

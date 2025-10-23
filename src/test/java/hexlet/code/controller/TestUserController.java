@@ -10,9 +10,7 @@ public class TestUserController {
 
     @Test
     public void testWelcome() {
-        boolean actualCondition = true;
-        assertThat(actualCondition); // This test will pass
-
+        assertThat(true).isTrue();
     }
 }
 
