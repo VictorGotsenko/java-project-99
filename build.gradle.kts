@@ -43,8 +43,6 @@ dependencies {
     implementation("org.openapitools:jackson-databind-nullable:0.2.6")
 
 
-
-
     // конфиг  Mapstruct не работает с классами, в которых используется lombok
     // https://ru.stackoverflow.com/questions/1286369
     compileOnly("org.projectlombok:lombok:1.18.38")
@@ -66,14 +64,17 @@ dependencies {
     testAnnotationProcessor("org.projectlombok:lombok:1.18.38")
     testAnnotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.security:spring-security-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     //**** for Test Render
     testImplementation(platform("org.junit:junit-bom:6.0.0-M1"))
-	testImplementation("org.junit.jupiter:junit-jupiter")
-	testImplementation("net.javacrumbs.json-unit:json-unit-assertj:3.2.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:6.0.0-M1")
+
+    // для стартёра
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    // для аутентификации
+    testImplementation("org.springframework.security:spring-security-test")
     //****
 
     // test JSON struct
@@ -98,7 +99,7 @@ tasks.jacocoTestReport {
     }
 }
 
-tasks.withType<JavaCompile>(){
+tasks.withType<JavaCompile>() {
     // "--warning-mode all",
     options.compilerArgs.addAll(listOf("-Xlint:deprecation", "-Xlint:unchecked"))
 }
