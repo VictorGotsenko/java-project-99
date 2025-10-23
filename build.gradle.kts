@@ -27,7 +27,7 @@ repositories {
     mavenCentral()
 }
 //val h2databaseVer = "2.3.232"
-val HikariCPVer = "6.3.0"
+//val HikariCPVer = "6.3.0"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
@@ -54,8 +54,8 @@ dependencies {
 
     //    runtimeOnly("com.h2database:h2")
     runtimeOnly("com.h2database:h2:2.3.232")
-//    implementation("com.h2database:h2:$h2databaseVer") // database H2 & HikariCP
-    implementation("com.zaxxer:HikariCP:$HikariCPVer")
+    implementation("com.h2database:h2:") // database H2 & HikariCP
+    implementation("com.zaxxer:HikariCP:6.3.0")
     // for  driver class: org.postgresql.Driver
     implementation("org.postgresql:postgresql:42.7.7")
     runtimeOnly("org.postgresql:postgresql")
