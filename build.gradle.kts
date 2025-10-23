@@ -26,17 +26,15 @@ java {
 repositories {
     mavenCentral()
 }
-//val h2databaseVer = "2.3.232"
-//val HikariCPVer = "6.3.0"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springframework.boot:spring-boot-devtools")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+    implementation("org.springframework.boot:spring-boot-devtools")
     implementation("net.datafaker:datafaker:2.4.4")
 
     // модуль jackson-databind-nullable
@@ -58,8 +56,6 @@ dependencies {
     implementation("com.zaxxer:HikariCP:6.3.0")
     // for  driver class: org.postgresql.Driver
     implementation("org.postgresql:postgresql:42.7.7")
-    runtimeOnly("org.postgresql:postgresql")
-
 
     testCompileOnly("org.projectlombok:lombok:1.18.38")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.38")
@@ -82,7 +78,6 @@ dependencies {
     testImplementation("net.javacrumbs.json-unit:json-unit-assertj:4.1.1")
     // Instacio
     testImplementation("org.instancio:instancio-junit:5.5.1")
-
 }
 
 checkstyle {

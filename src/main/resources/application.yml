@@ -6,6 +6,8 @@ logging:
       springframework:
         # web: DEBUG
         security: DEBUG
+    org.hibernate: "error"
+
 
 spring:
   main:
