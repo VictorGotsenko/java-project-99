@@ -61,13 +61,20 @@ dependencies {
     // for  driver class: org.postgresql.Driver
     implementation("org.postgresql:postgresql:42.7.7")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.security:spring-security-test")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     testCompileOnly("org.projectlombok:lombok:1.18.38")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.38")
     testAnnotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    //**** for Test Render
+    testImplementation(platform("org.junit:junit-bom:6.0.0-M1"))
+	testImplementation("org.junit.jupiter:junit-jupiter")
+	testImplementation("net.javacrumbs.json-unit:json-unit-assertj:3.2.2")
+    //****
 
     // test JSON struct
     testImplementation("net.javacrumbs.json-unit:json-unit-assertj:4.1.1")
