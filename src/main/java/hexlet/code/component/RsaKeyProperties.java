@@ -3,7 +3,6 @@ package hexlet.code.component;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
-import jakarta.annotation.PostConstruct;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -18,12 +17,12 @@ public class RsaKeyProperties {
     private RSAPublicKey publicKey;
     private RSAPrivateKey privateKey;
 
-    /**
-     * void init.
-     */
-    @PostConstruct
-    public void init() {
-        System.out.println("Public key: " + publicKey);
-        System.out.println("Private key " + privateKey);
-    }
+//    /**
+//     * void init.
+//     */
+//    @PostConstruct
+//    public void init() {
+//        System.out.println("Public key: " + publicKey);
+//        System.out.println("Private key " + privateKey);
+//    }
 }
