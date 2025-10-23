@@ -27,6 +27,9 @@ public class EncodersConfig {
     /**
      *
      * @return PasswordEncoder
+     *
+     * Реализация BCryptPasswordEncoder использует широко поддерживаемый алгоритм bcrypt для хэширования паролей.
+     * Для того чтобы сделать его более устойчивым к взлому, bcrypt намеренно замедлен
      */
     @Bean
     public PasswordEncoder passwordEncoder() {

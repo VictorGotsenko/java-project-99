@@ -49,6 +49,7 @@ public class TestUserController {
 
     /**
      *  Init method.
+     *
      */
     @BeforeEach
     public void setUp() {
