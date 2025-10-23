@@ -58,6 +58,7 @@ dependencies {
     implementation("com.zaxxer:HikariCP:$HikariCPVer")
     // for  driver class: org.postgresql.Driver
     implementation("org.postgresql:postgresql:42.7.7")
+    runtimeOnly("org.postgresql:postgresql")
 
 
     testCompileOnly("org.projectlombok:lombok:1.18.38")
