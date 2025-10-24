@@ -30,11 +30,21 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+    implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-devtools")
+    implementation("org.springframework:spring-context-support:5.3.25")
+
+    //С помощью процессора аннотаций Spring Boot формирует предоставление метаданных
+    //о конфигурации приложения.
+    // Файл spring-configuration-metadata.json содержит информацию о доступных параметрах конфигурации,
+    // их типах, значениях по умолчанию, описаниях и других атрибутах.
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
     implementation("net.datafaker:datafaker:2.4.4")
 
     // модуль jackson-databind-nullable
@@ -50,11 +60,12 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.38")
 
 
-    //    runtimeOnly("com.h2database:h2")
-    runtimeOnly("com.h2database:h2:2.3.232")
+    // DataBase section
+    runtimeOnly("com.h2database:h2")
     implementation("com.h2database:h2:") // database H2 & HikariCP
     implementation("com.zaxxer:HikariCP:6.3.0")
     // for  driver class: org.postgresql.Driver
+    runtimeOnly("org.postgresql:postgresql")
     implementation("org.postgresql:postgresql:42.7.7")
 
     testCompileOnly("org.projectlombok:lombok:1.18.38")

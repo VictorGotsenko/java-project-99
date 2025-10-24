@@ -1,10 +1,11 @@
 spring:
   #profiles: production
   datasource:
-    url: ${JDBC_DATABASE_URL}
     driver-class-name: org.postgresql.Driver
+    url: ${JDBC_DATABASE_URL}
     username: ${USERNAME}
     password: ${PASSWORD}
+
 
   jpa:
     properties:
