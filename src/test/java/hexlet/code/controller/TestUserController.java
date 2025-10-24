@@ -1,10 +1,11 @@
 package hexlet.code.controller;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-//@SpringBootTest
+@SpringBootTest
 public class TestUserController {
 
     @Test
