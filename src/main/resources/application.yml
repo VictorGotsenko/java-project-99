@@ -1,7 +1,8 @@
 ---
 logging:
   level:
-    root: WARN
+    #root: WARN
+    root: DEBUG
     org:
       springframework:
         # web: DEBUG
