@@ -78,12 +78,13 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:6.0.0-M1"))
     testImplementation("org.junit.jupiter:junit-jupiter:6.0.0-M1")
 
-    // для стартёра
+    // стартёр тестов
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     // для аутентификации
     testImplementation("org.springframework.security:spring-security-test")
     //****
+   // testImplementation("org.springframework:spring-test:6.2.10")
 
     // test JSON struct
     testImplementation("net.javacrumbs.json-unit:json-unit-assertj:4.1.1")
