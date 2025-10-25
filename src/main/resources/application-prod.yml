@@ -6,3 +6,7 @@ spring:
     username: ${USERNAME}
     password: ${PASSWORD}
 
+jpa:
+  hibernate:
+  ddl-auto: update
+  database-platform: org.hibernate.dialect.PostgreSQLDialect

@@ -1,6 +1,7 @@
 ---
 logging:
-  #level:
+  level:
+    root: INFO
     #root: WARN
     #root: DEBUG
     org:
@@ -15,18 +16,26 @@ spring:
   output:
     ansi:
       enabled: always
-
-
+  instancio:
+    bean:
+      validation:
+        enabled: true
+  sql:
+    init:
+      mode: always
   profiles:
     ##default: dev
     #active: dev
     active: prod
 
   jpa:
+    generate-ddl: true
     show-sql: true
     hibernate:
       format_sql: true
-      ddl-auto: update
+      ddl-auto: create
+      #ddl-auto: update
+      #ddl-auto: validate
 
 rsa:
   private-key: classpath:certs/private.pem
