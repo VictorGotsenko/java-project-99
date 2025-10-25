@@ -30,26 +30,19 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-jdbc")
-    implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-devtools")
-    implementation("org.springframework:spring-context-support:5.3.25")
-
-    //С помощью процессора аннотаций Spring Boot формирует предоставление метаданных
-    //о конфигурации приложения.
-    // Файл spring-configuration-metadata.json содержит информацию о доступных параметрах конфигурации,
-    // их типах, значениях по умолчанию, описаниях и других атрибутах.
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
     implementation("net.datafaker:datafaker:2.4.4")
 
     // модуль jackson-databind-nullable
     implementation("org.openapitools:jackson-databind-nullable:0.2.6")
 
+    // Mapstruct
+    implementation("org.mapstruct:mapstruct:1.5.5.Final")
 
     // конфиг  Mapstruct не работает с классами, в которых используется lombok
     // https://ru.stackoverflow.com/questions/1286369
@@ -61,9 +54,10 @@ dependencies {
 
 
     // DataBase section
+    implementation("com.zaxxer:HikariCP:6.3.0")
+
     runtimeOnly("com.h2database:h2")
     implementation("com.h2database:h2:") // database H2 & HikariCP
-    implementation("com.zaxxer:HikariCP:6.3.0")
     // for  driver class: org.postgresql.Driver
     runtimeOnly("org.postgresql:postgresql")
     implementation("org.postgresql:postgresql:42.7.7")
@@ -75,8 +69,8 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     //**** for Test Render
-    testImplementation(platform("org.junit:junit-bom:6.0.0-M1"))
-    testImplementation("org.junit.jupiter:junit-jupiter:6.0.0-M1")
+//    testImplementation(platform("org.junit:junit-bom:6.0.0-M1"))
+//    testImplementation("org.junit.jupiter:junit-jupiter:6.0.0-M1")
 
     // стартёр тестов
     testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -84,7 +78,7 @@ dependencies {
     // для аутентификации
     testImplementation("org.springframework.security:spring-security-test")
     //****
-   // testImplementation("org.springframework:spring-test:6.2.10")
+    // testImplementation("org.springframework:spring-test:6.2.10")
 
     // test JSON struct
     testImplementation("net.javacrumbs.json-unit:json-unit-assertj:4.1.1")

@@ -1,7 +1,7 @@
 ---
 logging:
-  level:
-    root: WARN
+  #level:
+    #root: WARN
     #root: DEBUG
     org:
       springframework:
@@ -10,8 +10,8 @@ logging:
     org.hibernate: "error"
 
 spring:
-  #main:
-    #banner-mode: "off"
+  main:
+    banner-mode: "off"
   output:
     ansi:
       enabled: always
@@ -31,3 +31,7 @@ spring:
 rsa:
   private-key: classpath:certs/private.pem
   public-key: classpath:certs/public.pem
+
+server:
+  port: 8080
+  address: 0.0.0.0
