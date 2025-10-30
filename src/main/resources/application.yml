@@ -4,13 +4,14 @@ logging:
     root: INFO
     #root: WARN
     #root: DEBUG
-    org:
-      springframework:
-        # web: DEBUG
-        security: DEBUG
+    #org.springframework.security: TRACE
     org.hibernate: "error"
 
 spring:
+  profiles:
+    #default: dev
+    #active: dev
+    active: prod
   main:
     banner-mode: "off"
   output:
@@ -23,10 +24,7 @@ spring:
   sql:
     init:
       mode: always
-  profiles:
-    ##default: dev
-    #active: dev
-    active: prod
+
 
   jpa:
     generate-ddl: true

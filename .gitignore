@@ -40,3 +40,8 @@ out/
 /.nb-gradle/
 
 notes_prj99
+### From Frontend ###
+node_modules/
+package.json
+package-lock.json
+

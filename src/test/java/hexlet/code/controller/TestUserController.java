@@ -14,6 +14,8 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -22,7 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.JwtRequestPostProcessor;
 
 
-
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -33,9 +35,11 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.assertj.core.api.Assertions.assertThat;
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
 public class TestUserController {
+    @LocalServerPort
+    private int port;
 
     private Faker faker = new Faker();
 
@@ -54,6 +58,8 @@ public class TestUserController {
     private User userData;
     private JwtRequestPostProcessor token;
 
+    @Autowired
+    private TestRestTemplate testRestTemplate;
 
     /**
      * Init method.
@@ -74,6 +80,24 @@ public class TestUserController {
 
     }
 
+/*
+    @Test
+    @DisplayName("R - Test from workshop")
+    void testGetAll() {
+//        UserDTO userDTO = new UserDTO();
+//        userDTO.setEmail(faker.internet().emailAddress());
+
+
+        ResponseEntity<UserDTO> userDTOResponseEntity = testRestTemplate
+                .getForEntity("http://localhost:" + port + "/api/users/" + userData.getId(),
+                        UserDTO.class);
+
+        UserDTO testUserDTO = userDTOResponseEntity.getBody();
+        assertNotNull(testUserDTO);
+
+    }
+
+ */
 
     @Test
     public void testWelcome() throws Exception {

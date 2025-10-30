@@ -38,6 +38,9 @@ dependencies {
 
     implementation("net.datafaker:datafaker:2.4.4")
 
+    // SpringDoc OpenAPI Starter WebMVC UI » 2.8.13
+//    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13")
+
     // модуль jackson-databind-nullable
     implementation("org.openapitools:jackson-databind-nullable:0.2.6")
 
