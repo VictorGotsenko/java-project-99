@@ -28,9 +28,9 @@ import java.util.List;
 @RequestMapping("/api/users")
 @AllArgsConstructor
 public class UserController {
-    private static final String ONLY_OWNER_BY_ID = """
-                @userRepository.findById(#id).get().getEmail() == authentication.getName()
-            """;
+//    private static final String ONLY_OWNER_BY_ID = """
+//                @userRepository.findById(#id).get().getEmail() == authentication.getName()
+//            """;
 
 
     private final UserRepository userRepository;
@@ -72,7 +72,7 @@ public class UserController {
      * @param dto
      * @return UserDTO
      */
-    @PreAuthorize(ONLY_OWNER_BY_ID)
+    @PreAuthorize("@userRepository.findById(#id).get().getEmail() == authentication.getName()")
     @PutMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UserDTO update(@PathVariable("id") Long id, @Valid @RequestBody UserUpdateDTO dto) {
@@ -82,7 +82,8 @@ public class UserController {
     /**
      * @param id
      */
-    @PreAuthorize(ONLY_OWNER_BY_ID)
+   // @PreAuthorize(ONLY_OWNER_BY_ID)
+    @PreAuthorize("@userRepository.findById(#id).get().getEmail() == authentication.getName()")
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable long id) {

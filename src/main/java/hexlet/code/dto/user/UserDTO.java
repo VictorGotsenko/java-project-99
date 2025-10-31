@@ -12,10 +12,10 @@ public class UserDTO {
     private String lastName;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;
 
     /**
-     *
      * @return id
      */
     public Long getId() {
@@ -23,7 +23,6 @@ public class UserDTO {
     }
 
     /**
-     *
      * @param id
      */
     public void setId(Long id) {
@@ -31,7 +30,6 @@ public class UserDTO {
     }
 
     /**
-     *
      * @return email
      */
     public String getEmail() {
@@ -39,7 +37,6 @@ public class UserDTO {
     }
 
     /**
-     *
      * @param email
      */
     public void setEmail(String email) {
@@ -47,7 +44,6 @@ public class UserDTO {
     }
 
     /**
-     *
      * @return firstName
      */
     public String getFirstName() {
@@ -55,7 +51,6 @@ public class UserDTO {
     }
 
     /**
-     *
      * @param firstName
      */
     public void setFirstName(String firstName) {
@@ -63,7 +58,6 @@ public class UserDTO {
     }
 
     /**
-     *
      * @return String
      */
     public String getLastName() {
@@ -71,7 +65,6 @@ public class UserDTO {
     }
 
     /**
-     *
      * @param lastName
      */
     public void setLastName(String lastName) {
@@ -79,7 +72,6 @@ public class UserDTO {
     }
 
     /**
-     *
      * @return createdAt
      */
     public LocalDateTime getCreatedAt() {
@@ -87,10 +79,18 @@ public class UserDTO {
     }
 
     /**
-     *
      * @param createdAt
      */
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    /**
+     * For test, then createdAt is String Shape pattern = "yyyy-MM-dd".
+     *
+     * @param createdAt
+     */
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = LocalDateTime.parse(createdAt + "T00:00");
     }
 }
