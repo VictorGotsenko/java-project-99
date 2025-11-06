@@ -38,7 +38,6 @@ public abstract class UserMapper {
     public abstract void update(UserUpdateDTO dto, @MappingTarget User user);
 
     /**
-     *
      * @param data
      */
     @BeforeMapping
@@ -48,7 +47,6 @@ public abstract class UserMapper {
     }
 
     /**
-     *
      * @param data
      */
     @BeforeMapping
@@ -59,5 +57,4 @@ public abstract class UserMapper {
             data.setPassword(JsonNullable.of(hashEncode));
         }
     }
-
 }

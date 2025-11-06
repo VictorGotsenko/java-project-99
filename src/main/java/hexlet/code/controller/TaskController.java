@@ -1,15 +1,15 @@
 package hexlet.code.controller;
 
 
-import hexlet.code.dto.user.UserCreateDTO;
-import hexlet.code.dto.user.UserUpdateDTO;
-import hexlet.code.repository.UserRepository;
-import hexlet.code.service.UserService;
+import hexlet.code.dto.task.TaskCreateDTO;
+import hexlet.code.dto.task.TaskDTO;
+import hexlet.code.dto.task.TaskUpdateDTO;
+import hexlet.code.repository.TaskRepository;
+import hexlet.code.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,75 +20,62 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import hexlet.code.dto.user.UserDTO;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/tasks")
 @AllArgsConstructor
-public class UserController {
-//    private static final String ONLY_OWNER_BY_ID = """
-//                @userRepository.findById(#id).get().getEmail() == authentication.getName()
-//            """;
+public class TaskController {
 
-
-    private final UserRepository userRepository;
-    private final UserService userService;
+    private final TaskRepository taskRepository;
+    private final TaskService taskService;
 
     /**
-     * @return List<UserDTO>
+     * @return List<TaskDTO>
      */
     @GetMapping(path = "")
-//    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<UserDTO>> index() {
-        var result = userService.getAll();
+    public ResponseEntity<List<TaskDTO>> index() {
+        var result = taskService.getAll();
         return ResponseEntity.ok().header("X-Total-Count", String.valueOf(result.size())).body(result);
     }
 
     /**
      * @param id
-     * @return UserDTO
+     * @return TaskDTO
      */
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UserDTO show(@PathVariable long id) {
-        return userService.getById(id);
+    public TaskDTO show(@PathVariable long id) {
+        return taskService.getById(id);
     }
-
 
     /**
      * @param dto
-     * @return UserDTO
+     * @return TaskDTO
      */
     @PostMapping(path = "")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDTO create(@Valid @RequestBody UserCreateDTO dto) {
-        return userService.create(dto);
+    public TaskDTO create(@Valid @RequestBody TaskCreateDTO dto) {
+        return taskService.create(dto);
     }
 
     /**
      * @param id
      * @param dto
-     * @return UserDTO
+     * @return TaskDTO
      */
-    @PreAuthorize("@userRepository.findById(#id).get().getEmail() == authentication.getName()")
     @PutMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UserDTO update(@PathVariable("id") Long id, @Valid @RequestBody UserUpdateDTO dto) {
-        return userService.update(id, dto);
+    public TaskDTO update(@PathVariable("id") Long id, @Valid @RequestBody TaskUpdateDTO dto) {
+        return taskService.update(id, dto);
     }
 
     /**
      * @param id
      */
-    // @PreAuthorize(ONLY_OWNER_BY_ID)
-    @PreAuthorize("@userRepository.findById(#id).get().getEmail() == authentication.getName()")
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable long id) {
-        userService.delete(id);
+        taskService.delete(id);
     }
-
-
 }

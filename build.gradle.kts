@@ -36,7 +36,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-devtools")
 
-    implementation("net.datafaker:datafaker:2.4.4")
+    implementation("net.datafaker:datafaker:2.5.3")
 
     // SpringDoc OpenAPI Starter WebMVC UI » 2.8.13
 //    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13")

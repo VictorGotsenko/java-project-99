@@ -19,5 +19,4 @@ public class UserCreateDTO {
 
     @NotBlank
     private String password;
-
 }

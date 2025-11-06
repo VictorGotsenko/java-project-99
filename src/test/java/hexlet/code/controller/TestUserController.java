@@ -3,7 +3,6 @@ package hexlet.code.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.dto.AuthRequest;
 import hexlet.code.dto.user.UserCreateDTO;
-import hexlet.code.dto.user.UserDTO;
 import hexlet.code.dto.user.UserUpdateDTO;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
@@ -20,16 +19,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.MediaType;
-
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -110,13 +105,28 @@ public class TestUserController {
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         String reqUrl = "http://localhost:" + port + "/api/users/" + testUser.getId();
-        ResponseEntity<UserDTO> response = testRestTemplate
-                .exchange(reqUrl, HttpMethod.GET, entity, UserDTO.class);
+        ResponseEntity<String> response = testRestTemplate
+                .exchange(reqUrl, HttpMethod.GET, entity, String.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertNotNull(response.getBody());
-        assertEquals(response.getBody().getFirstName(), testUser.getFirstName());
+        assertThatJson(response.getBody()).and(t -> t.node("firstName").isEqualTo(testUser.getFirstName()));
     }
 
+    @Test
+    @DisplayName("R - Test get by No Id ")
+    void testShowNoIdUres() {
+        Long noId = 999L;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        String reqUrl = "http://localhost:" + port + "/api/users/" + noId;
+        ResponseEntity<String> response = testRestTemplate
+                .exchange(reqUrl, HttpMethod.GET, entity, String.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertNotNull(response.getBody());
+        assertEquals(response.getBody().toString(), "User with id " + noId + " not found");
+    }
 
     @Test
     @DisplayName("R - Test get all")
@@ -126,10 +136,8 @@ public class TestUserController {
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         String reqUrl = "http://localhost:" + port + "/api/users";
-        ResponseEntity<List<UserDTO>> response = testRestTemplate
-                .exchange(reqUrl, HttpMethod.GET, entity,
-                        new ParameterizedTypeReference<List<UserDTO>>() {
-                        });
+        ResponseEntity<String> response = testRestTemplate
+                .exchange(reqUrl, HttpMethod.GET, entity, String.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertNotNull(response.getBody());
         assertThatJson(response.getBody()).isArray();
@@ -150,12 +158,12 @@ public class TestUserController {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<String> entity = new HttpEntity<>(body, headers);
-        ResponseEntity<UserDTO> response = testRestTemplate
+        ResponseEntity<String> response = testRestTemplate
                 .postForEntity("http://localhost:" + port + "/api/users",
                         entity,
-                        UserDTO.class);
+                        String.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        assertEquals(response.getBody().getFirstName(), userCreate.getFirstName());
+        assertThatJson(response.getBody()).and(t -> t.node("firstName").isEqualTo(userCreate.getFirstName()));
     }
 
     @Test
@@ -172,12 +180,13 @@ public class TestUserController {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<String> entity = new HttpEntity<>(body, headers);
-        ResponseEntity<UserDTO> response = testRestTemplate
+        ResponseEntity<String> response = testRestTemplate
                 .exchange("http://localhost:" + port + "/api/users/" + testUser.getId(),
-                        HttpMethod.PUT, entity, UserDTO.class);
+                        HttpMethod.PUT, entity, String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertEquals(response.getBody().getFirstName(), userUpdate.getFirstName().get());
+        assertThatJson(response.getBody()).and(t -> t.node("firstName")
+                .isEqualTo(userUpdate.getFirstName().get()));
     }
 
     @Test

@@ -16,7 +16,6 @@ public class JWTUtils {
     private JwtEncoder encoder;
 
     /**
-     *
      * @param username
      * @return String
      */

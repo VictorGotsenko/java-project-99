@@ -19,7 +19,6 @@ public class CustomUserDetailsService implements UserDetailsManager {
     private PasswordEncoder passwordEncoder;
 
     /**
-     *
      * @param email
      * @return UserDetails
      * @throws UsernameNotFoundException
@@ -34,6 +33,7 @@ public class CustomUserDetailsService implements UserDetailsManager {
 
     /**
      * void createUser.
+     *
      * @param userData
      */
     @Override
@@ -47,6 +47,7 @@ public class CustomUserDetailsService implements UserDetailsManager {
 
     /**
      * void updateUser.
+     *
      * @param user
      */
     @Override
@@ -57,6 +58,7 @@ public class CustomUserDetailsService implements UserDetailsManager {
 
     /**
      * void deleteUser.
+     *
      * @param username
      */
     @Override
@@ -67,6 +69,7 @@ public class CustomUserDetailsService implements UserDetailsManager {
 
     /**
      * void changePassword.
+     *
      * @param oldPassword
      * @param newPassword
      */
@@ -78,6 +81,7 @@ public class CustomUserDetailsService implements UserDetailsManager {
 
     /**
      * boolean userExists.
+     *
      * @param username
      * @return boolean
      */

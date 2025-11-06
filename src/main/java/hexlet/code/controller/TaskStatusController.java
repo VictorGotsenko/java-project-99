@@ -32,7 +32,6 @@ public class TaskStatusController {
     private TaskStatusService taskStatusService;
 
     /**
-     *
      * @return List<TaskStatusDTO>
      */
     @GetMapping(path = "")
@@ -42,7 +41,6 @@ public class TaskStatusController {
     }
 
     /**
-     *
      * @param id
      * @return TaskStatusDTO
      */
@@ -53,7 +51,6 @@ public class TaskStatusController {
     }
 
     /**
-     *
      * @param dto
      * @return TaskStatusDTO
      */
@@ -64,7 +61,6 @@ public class TaskStatusController {
     }
 
     /**
-     *
      * @param id
      * @param dto
      * @return TaskStatusDTO
@@ -76,7 +72,6 @@ public class TaskStatusController {
     }
 
     /**
-     *
      * @param id
      */
     @DeleteMapping(path = "/{id}")

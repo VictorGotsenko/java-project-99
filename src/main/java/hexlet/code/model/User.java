@@ -10,6 +10,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -24,12 +25,14 @@ import java.util.Collection;
 @Entity
 @Getter
 @Setter
+@RequiredArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 
 @Table(name = "users")
 public class User extends BaseEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @NotBlank
@@ -52,10 +55,9 @@ public class User extends BaseEntity implements UserDetails {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-
     /**
      *
-     * @return
+     * @return String
      */
     @Override
     public String getPassword() {
@@ -64,7 +66,7 @@ public class User extends BaseEntity implements UserDetails {
 
     /**
      *
-     * @return
+     * @return String
      */
     @Override
     public String getUsername() {
@@ -73,7 +75,7 @@ public class User extends BaseEntity implements UserDetails {
 
     /**
      *
-     * @return
+     * @return GrantedAuthority
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

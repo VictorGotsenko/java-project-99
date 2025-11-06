@@ -13,8 +13,13 @@ import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 
 @EntityListeners(AuditingEntityListener.class)
 @Entity
@@ -36,68 +41,4 @@ public class TaskStatus {
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
-
-    /**
-     *
-     * @return Long
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     *
-     * @param id
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     *
-     * @return name
-     */
-    public @NotBlank @Size(min = 1) String getName() {
-        return name;
-    }
-
-    /**
-     *
-     * @param name
-     */
-    public void setName(@NotBlank @Size(min = 1) String name) {
-        this.name = name;
-    }
-
-    /**
-     *
-     * @return String
-     */
-    public @NotBlank @Size(min = 1) String getSlug() {
-        return slug;
-    }
-
-    /**
-     *
-     * @param slug
-     */
-    public void setSlug(@NotBlank @Size(min = 1) String slug) {
-        this.slug = slug;
-    }
-
-    /**
-     *
-     * @return LocalDateTime
-     */
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    /**
-     *
-     * @param createdAt
-     */
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 }
