@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter
 @Setter
 public class TaskCreateDTO {
@@ -23,4 +25,8 @@ public class TaskCreateDTO {
 
     @JsonProperty("assignee_id")
     Long assigneeId;
+
+    private Set<Long> taskLabelIds;
+
+
 }

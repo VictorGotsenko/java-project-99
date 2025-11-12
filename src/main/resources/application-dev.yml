@@ -7,6 +7,11 @@ spring:
     driver-class-name: org.h2.Driver   # общий драйвер (будет переопределен для prod)
     username: sa
     password:
+  springdoc:
+    swagger-ui:
+      path: /swagger-ui.html
+    api-docs:
+      path: /api-docs
 
   #доступ к консоли H2 из приложения
   h2:

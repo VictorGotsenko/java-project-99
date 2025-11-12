@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/login")
 public class AuthenticationController {
     @Autowired
     private JWTUtils jwtUtils;
@@ -25,7 +25,7 @@ public class AuthenticationController {
      * @param authRequest
      * @return String
      */
-    @PostMapping("/login")
+    @PostMapping("")
     public String create(@RequestBody AuthRequest authRequest) {
         var authentication = new UsernamePasswordAuthenticationToken(
             authRequest.getUsername(), authRequest.getPassword());

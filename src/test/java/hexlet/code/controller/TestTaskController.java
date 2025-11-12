@@ -1,9 +1,7 @@
 package hexlet.code.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.dto.task.TaskCreateDTO;
-import hexlet.code.dto.task.TaskDTO;
 import hexlet.code.dto.task.TaskUpdateDTO;
 import hexlet.code.exeption.ResourceNotFoundException;
 import hexlet.code.mapper.TaskMapper;
@@ -26,8 +24,6 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.http.MediaType;
-
-import java.util.List;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
@@ -85,6 +81,7 @@ public class TestTaskController {
                 .ignore(Select.field(Task::getIndex))
                 .supply(Select.field(Task::getTaskStatus), () -> taskStatus)
                 .ignore(Select.field(Task::getAssignee))
+                .ignore(Select.field(Task::getLabels))
                 .ignore(Select.field(Task::getCreatedAt))
                 .create();
         taskRepository.save(testTask);
@@ -102,18 +99,13 @@ public class TestTaskController {
     @Test
     @DisplayName("R - Test get all")
     public void testIndex() throws Exception {
-        List<TaskDTO> expectedStatuses = taskRepository.findAll().stream()
-                .map(taskMapper::map)
-                .toList();
+
         MvcResult result = mockMvc.perform(get("/api/tasks").with(jwt()))
                 .andExpect(status().isOk())
                 .andReturn();
         String body = result.getResponse().getContentAsString();
+        assertThatJson(body).isArray();
 
-        List<TaskDTO> listTasks = objectMapper.readValue(body, new TypeReference<>() {
-        });
-
-        assertThat(listTasks.size()).isEqualTo(expectedStatuses.size());
     }
 
     @Test

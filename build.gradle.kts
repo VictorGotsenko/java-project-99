@@ -5,8 +5,9 @@ plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("com.github.ben-manes.versions") version "0.52.0"
     id("org.springframework.boot") version "3.5.6"
+    id("org.springdoc.openapi-gradle-plugin") version "1.9.0"
     id("io.spring.dependency-management") version "1.1.7"
-    id("org.sonarqube") version "6.2.0.5505"
+    id("org.sonarqube") version "7.0.1.6134"
 }
 
 group = "hexlet.code"
@@ -39,7 +40,8 @@ dependencies {
     implementation("net.datafaker:datafaker:2.5.3")
 
     // SpringDoc OpenAPI Starter WebMVC UI » 2.8.13
-//    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13")
+
 
     // модуль jackson-databind-nullable
     implementation("org.openapitools:jackson-databind-nullable:0.2.6")

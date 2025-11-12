@@ -1,7 +1,9 @@
 package hexlet.code.component;
 
+import hexlet.code.model.Label;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.model.User;
+import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -20,11 +23,15 @@ public class DataInitializer implements ApplicationRunner {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
     private TaskStatusRepository taskStatusRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private LabelRepository labelRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     /**
@@ -36,11 +43,12 @@ public class DataInitializer implements ApplicationRunner {
     }
 
     private void initApp() {
-        createAdmin();
-        createSlugs();
+        initAdmin();
+        initTasksStatus();
+        initLabels();
     }
 
-    private void createAdmin() {
+    private void initAdmin() {
         if (userRepository.findByEmail("hexlet@example.com").isEmpty()) {
             User userData = new User();
             userData.setEmail("hexlet@example.com");
@@ -52,7 +60,7 @@ public class DataInitializer implements ApplicationRunner {
         }
     }
 
-    private void createSlugs() {
+    private void initTasksStatus() {
         Map<String, String> taskStatuses = new HashMap<>();
         taskStatuses.put("Draft", "draft");
         taskStatuses.put("ToReview", "to_review");
@@ -64,6 +72,15 @@ public class DataInitializer implements ApplicationRunner {
             taskStatus.setName(entry.getKey());
             taskStatus.setSlug(entry.getValue());
             taskStatusRepository.save(taskStatus);
+        }
+    }
+
+    private void initLabels() {
+        List<String> labels = List.of("feature", "bug");
+        for (String st : labels) {
+            Label label = new Label();
+            label.setName(st);
+            labelRepository.save(label);
         }
     }
 }

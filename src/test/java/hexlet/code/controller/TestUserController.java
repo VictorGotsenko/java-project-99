@@ -10,6 +10,7 @@ import hexlet.code.util.JWTUtils;
 import net.datafaker.Faker;
 import org.instancio.Instancio;
 import org.instancio.Select;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -56,6 +59,9 @@ public class TestUserController {
     @Autowired
     private JWTUtils jwtUtils;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     /**
      * Init method.
      */
@@ -73,6 +79,14 @@ public class TestUserController {
         token = jwtUtils.generateToken("hexlet@example.com");
     }
 
+    /**
+     * afterEach.
+     */
+    @AfterEach
+    public void clean() {
+        userRepository.deleteAll();
+    }
+
     @Test
     @DisplayName("R - Test Welcome endpoint")
     public void testWelcome() throws Exception {
@@ -87,13 +101,26 @@ public class TestUserController {
     @Test
     @DisplayName("L - Test Login endpoint")
     public void testLogin() throws Exception {
-        AuthRequest entity = new AuthRequest();
-        entity.setUsername("hexlet@example.com");
-        entity.setPassword("qwerty");
+        User userData = new User();
+        userData.setEmail("hexlet@example.com");
+        String passDigist = passwordEncoder.encode("qwerty");
+        userData.setPasswordDigest(passDigist);
+        userData.setFirstName("admin");
+        userData.setLastName("root");
+        userRepository.save(userData);
+        AuthRequest auDTO = new AuthRequest();
+        auDTO.setUsername("hexlet@example.com");
+        auDTO.setPassword("qwerty");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+        String body = objectMapper.writeValueAsString(auDTO);
+        HttpEntity<String> entity = new HttpEntity<>(body, headers);
 
         ResponseEntity<String> response = testRestTemplate
                 .postForEntity("http://localhost:" + port + "/api/login",
                         entity, String.class);
+
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 

@@ -51,12 +51,15 @@ public class SecurityConfig {
                         // Disables the X-Frame-Options header for vie H2 base
                         .frameOptions(frameOptions -> frameOptions.disable()))
                 .authorizeHttpRequests(auth -> auth
-                        // Разрешаем доступ только к /api/login, чтобы аутентифицироваться и получить токен
                         .requestMatchers("/index.html").permitAll().requestMatchers("/favicon.ico").permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/assets/**").permitAll()
                         .requestMatchers("/api/login").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
+                        .requestMatchers("/api-docs/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-ui.html").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/welcome").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session

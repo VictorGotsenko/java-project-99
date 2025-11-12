@@ -25,7 +25,6 @@ spring:
     init:
       mode: always
 
-
   jpa:
     generate-ddl: true
     show-sql: true
