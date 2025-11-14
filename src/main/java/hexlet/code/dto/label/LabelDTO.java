@@ -8,8 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LabelDTO {
-    Long id;
-    String name;
+    private Long id;
+    private String name;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;
 }

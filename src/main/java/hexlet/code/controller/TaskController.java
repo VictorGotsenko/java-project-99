@@ -1,10 +1,11 @@
 package hexlet.code.controller;
 
-
 import hexlet.code.dto.task.TaskCreateDTO;
 import hexlet.code.dto.task.TaskDTO;
+import hexlet.code.dto.task.TaskParamsDTO;
 import hexlet.code.dto.task.TaskUpdateDTO;
 import hexlet.code.service.TaskService;
+import hexlet.code.specification.TaskSpecification;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,13 +28,16 @@ import java.util.List;
 public class TaskController {
 
     private final TaskService taskService;
+    private final TaskSpecification specBuilder;
 
     /**
+     * @param dto
      * @return List<TaskDTO>
      */
     @GetMapping(path = "")
-    public ResponseEntity<List<TaskDTO>> index() {
-        var result = taskService.getAll();
+    public ResponseEntity<List<TaskDTO>> index(TaskParamsDTO dto) {
+        // repository.findAll(/* спецификация */, PageRequest.of(/* текущая страница */, 10));
+        var result = taskService.getAll(dto);
         return ResponseEntity.ok().header("X-Total-Count", String.valueOf(result.size())).body(result);
     }
 

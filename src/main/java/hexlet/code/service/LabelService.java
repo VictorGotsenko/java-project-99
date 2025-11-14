@@ -7,7 +7,7 @@ import hexlet.code.dto.label.LabelUpdateDTO;
 import hexlet.code.mapper.LabelMapper;
 import hexlet.code.model.Label;
 import hexlet.code.repository.LabelRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import hexlet.code.exeption.ResourceNotFoundException;
@@ -16,12 +16,10 @@ import hexlet.code.exeption.ResourceNotFoundException;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class LabelService {
-    @Autowired
-    LabelRepository labelRepository;
-
-    @Autowired
-    LabelMapper labelMapper;
+    private final LabelRepository labelRepository;
+    private final LabelMapper labelMapper;
 
     /**
      *

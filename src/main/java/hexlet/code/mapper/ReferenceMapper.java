@@ -7,7 +7,6 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.TargetType;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 @Mapper(
     componentModel = MappingConstants.ComponentModel.SPRING
 )

@@ -43,22 +43,16 @@ public class TestTaskController {
     private int port;
 
     private Faker faker = new Faker();
-
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private ObjectMapper objectMapper;
-
     @Autowired
-    TaskRepository taskRepository;
-
+    private TaskRepository taskRepository;
     @Autowired
-    TaskStatusRepository taskStatusRepository;
-
+    private TaskStatusRepository taskStatusRepository;
     @Autowired
-    TaskMapper taskMapper;
-
+    private TaskMapper taskMapper;
     private Task testTask;
     private TaskStatus taskStatus;
 
@@ -104,7 +98,10 @@ public class TestTaskController {
                 .andExpect(status().isOk())
                 .andReturn();
         String body = result.getResponse().getContentAsString();
-        assertThatJson(body).isArray();
+        assertThatJson(body).isArray().allSatisfy(cell ->
+                assertThatJson(cell)
+                        .and(t -> t.node("title").isEqualTo(testTask.getName()))
+                        .and(t -> t.node("status").isEqualTo(testTask.getTaskStatus().getSlug())));
 
     }
 
@@ -126,6 +123,27 @@ public class TestTaskController {
                 .andExpect(status().isNotFound())
                 .andExpect(mvcResult -> mvcResult.getResolvedException()
                         .getClass().equals(ResourceNotFoundException.class));
+    }
+
+    @Test
+    @DisplayName("R - Test get by Filter")
+    public void testFilter() throws Exception {
+//        String query = "?titleCont=ti&assigneeId=1&status=draft&labelId=1";
+//        String query = "?status=to_move1";
+        String query = "?titleCont=FF";
+
+        Task taskForFiltr = new Task();
+        taskForFiltr.setName("task FF");
+        taskForFiltr.setDescription("task for filter");
+        taskForFiltr.setTaskStatus(testTask.getTaskStatus());
+        taskRepository.save(taskForFiltr);
+        MvcResult mvcResult = mockMvc.perform(get("/api/tasks" + query).with(jwt()))
+                .andExpect(status().isOk())
+                .andReturn();
+        String body = mvcResult.getResponse().getContentAsString();
+        assertThatJson(body).isArray().allSatisfy(cell ->
+                assertThatJson(cell)
+                        .and(t -> t.node("title").isEqualTo(taskForFiltr.getName())));
     }
 
     @Test

@@ -38,19 +38,14 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 public class TestTaskStatusController {
     @LocalServerPort
     private int port;
-
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private ObjectMapper objectMapper;
-
     @Autowired
     private TaskStatusRepository taskStatusRepository;
-
     @Autowired
     private TaskStatusMapper taskStatusMapper;
-
     private TaskStatus taskStatus;
 
     /**

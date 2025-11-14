@@ -42,25 +42,19 @@ public class TestUserController {
     @LocalServerPort
     private int port;
 
-    private Faker faker = new Faker();
-
     @Autowired
     private ObjectMapper objectMapper;
-
     @Autowired
     private UserRepository userRepository;
-
-    private User testUser;
-    private String token;
-
     @Autowired
     private TestRestTemplate testRestTemplate;
-
     @Autowired
     private JWTUtils jwtUtils;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
+    private Faker faker = new Faker();
+    private User testUser;
+    private String token;
 
     /**
      * Init method.

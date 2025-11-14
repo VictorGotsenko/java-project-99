@@ -1,6 +1,5 @@
 package hexlet.code.mapper;
 
-
 import hexlet.code.dto.label.LabelCreateDTO;
 import hexlet.code.dto.label.LabelDTO;
 import hexlet.code.dto.label.LabelUpdateDTO;

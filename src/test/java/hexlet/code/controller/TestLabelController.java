@@ -39,11 +39,9 @@ public class TestLabelController {
     private int port;
 
     @Autowired
-    private MockMvc mockMvc;
-
+    private  MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
-
     @Autowired
     private LabelRepository labelRepository;
 

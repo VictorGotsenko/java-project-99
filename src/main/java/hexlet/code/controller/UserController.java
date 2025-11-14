@@ -27,11 +27,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 @AllArgsConstructor
+//@RequredArgsConstructor
 public class UserController {
 //    private static final String ONLY_OWNER_BY_ID = """
 //                @userRepository.findById(#id).get().getEmail() == authentication.getName()
 //            """;
-
 
     private final UserRepository userRepository;
     private final UserService userService;

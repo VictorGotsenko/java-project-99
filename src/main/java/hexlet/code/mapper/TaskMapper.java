@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 public abstract class TaskMapper {
     @Autowired
     private TaskStatusRepository taskStatusRepository;
-
     @Autowired
     private LabelRepository labelRepository;
 

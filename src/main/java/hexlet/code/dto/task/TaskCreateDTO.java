@@ -14,17 +14,17 @@ public class TaskCreateDTO {
 
     @NotNull
     @Size(min = 1)
-    String title;
+    private String title;
 
-    String content;
-    Integer index;
+    private String content;
+    private Integer index;
 
     @NotNull
     @JsonProperty("status")
-    String status;
+    private String status;
 
     @JsonProperty("assignee_id")
-    Long assigneeId;
+    private Long assigneeId;
 
     private Set<Long> taskLabelIds;
 
