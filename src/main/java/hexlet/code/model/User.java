@@ -1,5 +1,6 @@
 package hexlet.code.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -29,12 +30,19 @@ import java.util.Collection;
 @EntityListeners(AuditingEntityListener.class)
 
 @Table(name = "users")
-public class User extends BaseEntity implements UserDetails {
+@Schema(description = "User data model")
+public class User implements BaseEntity,  UserDetails {
+
     @Id
+    @Schema(description = "User ID",
+            example = "123")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Schema(description = "User first name",
+            example = "Tom",
+            requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank
     private String firstName;
     @NotBlank
@@ -45,9 +53,11 @@ public class User extends BaseEntity implements UserDetails {
     @Column(unique = true)
     private String email;
 
+    @Schema(description = "Password hash")
     @NotBlank
     private String passwordDigest;
 
+    @Schema(description = "User creation date")
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -78,6 +88,7 @@ public class User extends BaseEntity implements UserDetails {
      * @return GrantedAuthority
      */
     @Override
+    @SuppressWarnings("java:S2293")
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return new ArrayList<GrantedAuthority>();
     }

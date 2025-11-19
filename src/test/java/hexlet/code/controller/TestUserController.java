@@ -38,7 +38,7 @@ import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
-public class TestUserController {
+class TestUserController {
     @LocalServerPort
     private int port;
 
@@ -60,7 +60,7 @@ public class TestUserController {
      * Init method.
      */
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         testUser = new User();
         testUser = Instancio.of(User.class)
                 .ignore(Select.field(User::getId))
@@ -77,13 +77,13 @@ public class TestUserController {
      * afterEach.
      */
     @AfterEach
-    public void clean() {
+    void clean() {
         userRepository.deleteAll();
     }
 
     @Test
     @DisplayName("R - Test Welcome endpoint")
-    public void testWelcome() throws Exception {
+    void testWelcome() {
         ResponseEntity<String> response = testRestTemplate
                 .getForEntity("http://localhost:" + port + "/welcome", String.class);
 
@@ -94,7 +94,7 @@ public class TestUserController {
 
     @Test
     @DisplayName("L - Test Login endpoint")
-    public void testLogin() throws Exception {
+    void testLogin() throws Exception {
         User userData = new User();
         userData.setEmail("hexlet@example.com");
         String passDigist = passwordEncoder.encode("qwerty");
@@ -136,6 +136,7 @@ public class TestUserController {
     @Test
     @DisplayName("R - Test get by No Id ")
     void testShowNoIdUres() {
+        String msg = " -=Not found=- User with id: ";
         Long noId = 999L;
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
@@ -146,12 +147,12 @@ public class TestUserController {
                 .exchange(reqUrl, HttpMethod.GET, entity, String.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
         assertNotNull(response.getBody());
-        assertEquals(response.getBody().toString(), "User with id " + noId + " not found");
+        assertEquals(response.getBody(), msg + noId);
     }
 
     @Test
     @DisplayName("R - Test get all")
-    public void testIndex() throws Exception {
+    void testIndex() {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
         HttpEntity<String> entity = new HttpEntity<>(headers);
@@ -166,7 +167,7 @@ public class TestUserController {
 
     @Test
     @DisplayName("C - Create user")
-    public void testCreate() throws Exception {
+    void testCreate() throws Exception {
         UserCreateDTO userCreate = new UserCreateDTO();
         userCreate.setFirstName("John");
         userCreate.setLastName("Doe");
@@ -189,7 +190,7 @@ public class TestUserController {
 
     @Test
     @DisplayName("U - Update user")
-    public void testUpdate() throws Exception {
+    void testUpdate() throws Exception {
         UserUpdateDTO userUpdate = new UserUpdateDTO();
         userUpdate.setFirstName(JsonNullable.of("Tom"));
         userUpdate.setEmail(JsonNullable.of("Tommy@example.com"));
@@ -212,7 +213,7 @@ public class TestUserController {
 
     @Test
     @DisplayName("D - Delete user")
-    public void testDelete() throws Exception {
+    void testDelete() {
         // login testUser
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(jwtUtils.generateToken(testUser.getEmail()));

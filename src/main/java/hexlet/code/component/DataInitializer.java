@@ -7,11 +7,11 @@ import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import io.sentry.Sentry;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,17 +21,10 @@ import java.util.Map;
 @AllArgsConstructor
 public class DataInitializer implements ApplicationRunner {
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private TaskStatusRepository taskStatusRepository;
-
-    @Autowired
-    private LabelRepository labelRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final TaskStatusRepository taskStatusRepository;
+    private final LabelRepository labelRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     /**
@@ -46,8 +39,10 @@ public class DataInitializer implements ApplicationRunner {
         initAdmin();
         initTasksStatus();
         initLabels();
+        testSentry();
     }
 
+    @SuppressWarnings("java:S6437")
     private void initAdmin() {
         if (userRepository.findByEmail("hexlet@example.com").isEmpty()) {
             User userData = new User();
@@ -83,4 +78,14 @@ public class DataInitializer implements ApplicationRunner {
             labelRepository.save(label);
         }
     }
+
+    @SuppressWarnings("java:S112")
+    private void testSentry() {
+        try {
+            throw new Exception("This is a test.");
+        } catch (Exception e) {
+            Sentry.captureException(e);
+        }
+    }
+
 }

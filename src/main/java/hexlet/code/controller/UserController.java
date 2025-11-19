@@ -5,6 +5,9 @@ import hexlet.code.dto.user.UserCreateDTO;
 import hexlet.code.dto.user.UserUpdateDTO;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,12 +29,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
+@Tag(name = "User API", description = "API to manage user data")
 @AllArgsConstructor
 //@RequredArgsConstructor
 public class UserController {
-//    private static final String ONLY_OWNER_BY_ID = """
-//                @userRepository.findById(#id).get().getEmail() == authentication.getName()
-//            """;
 
     private final UserRepository userRepository;
     private final UserService userService;
@@ -61,6 +62,8 @@ public class UserController {
      * @param dto
      * @return UserDTO
      */
+    @Operation(summary = "Create new user")
+    @ApiResponse(responseCode = "201", description = "User was create")
     @PostMapping(path = "")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO create(@Valid @RequestBody UserCreateDTO dto) {

@@ -34,12 +34,12 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
-public class TestLabelController {
+class TestLabelController {
     @LocalServerPort
     private int port;
 
     @Autowired
-    private  MockMvc mockMvc;
+    private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
@@ -51,7 +51,7 @@ public class TestLabelController {
      * Init.
      */
     @BeforeEach
-    public void initTests() {
+    void initTests() {
         testLabel = Instancio.of(Label.class)
                 .ignore(Select.field(Label::getId))
                 .set(Select.field("name"), "testLabel")
@@ -64,13 +64,13 @@ public class TestLabelController {
      * afterEach.
      */
     @AfterEach
-    public void clean() {
+    void clean() {
         labelRepository.deleteAll();
     }
 
     @Test
     @DisplayName("R - Test get all")
-    public void testIndex() throws Exception {
+    void testIndex() throws Exception {
 
         MvcResult result = mockMvc.perform(get("/api/labels").with(jwt()))
                 .andExpect(status().isOk())
@@ -83,7 +83,7 @@ public class TestLabelController {
 
     @Test
     @DisplayName("R - Test get by Id")
-    public void testShow() throws Exception {
+    void testShow() throws Exception {
         MvcResult mvcResult = mockMvc.perform(get("/api/labels/" + testLabel.getId()).with(jwt()))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -94,7 +94,7 @@ public class TestLabelController {
 
     @Test
     @DisplayName("C - Create task_statuses")
-    public void testCreate() throws Exception {
+    void testCreate() throws Exception {
         Map<String, String> data = new HashMap<>();
         data.put("name", "LaLabel");
 
@@ -112,7 +112,7 @@ public class TestLabelController {
 
     @Test
     @DisplayName("U - Update task_statuses")
-    public void testUpdate() throws Exception {
+    void testUpdate() throws Exception {
 
         Map<String, String> data = new HashMap<>();
         data.put("name", "Updated");
@@ -128,7 +128,7 @@ public class TestLabelController {
 
     @Test
     @DisplayName("D - Delete task_statuses")
-    public void testDelete() throws Exception {
+    void testDelete() throws Exception {
         mockMvc.perform(delete("/api/labels/" + testLabel.getId()).with(jwt()))
                 .andExpect(status().isNoContent());
         assertThat(labelRepository.existsById(testLabel.getId())).isFalse();

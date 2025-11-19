@@ -22,7 +22,6 @@ public class LabelService {
     private final LabelMapper labelMapper;
 
     /**
-     *
      * @return List
      */
     public List<LabelDTO> getAll() {
@@ -32,18 +31,16 @@ public class LabelService {
     }
 
     /**
-     *
      * @param id
      * @return LabelDTO
      */
     public LabelDTO getById(Long id) {
         Label label = labelRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Label with id " + id + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(" -=Not found=- Label with id: " + id));
         return labelMapper.map(label);
     }
 
     /**
-     *
      * @param dto
      * @return LabelDTO
      */
@@ -54,7 +51,6 @@ public class LabelService {
     }
 
     /**
-     *
      * @param id
      * @param dto
      * @return LabelDTO
@@ -69,7 +65,6 @@ public class LabelService {
     }
 
     /**
-     *
      * @param id
      */
     // Если метка связана с задачей, удалить её нельзя - этим занимается Hibernate

@@ -36,7 +36,6 @@ public class TaskController {
      */
     @GetMapping(path = "")
     public ResponseEntity<List<TaskDTO>> index(TaskParamsDTO dto) {
-        // repository.findAll(/* спецификация */, PageRequest.of(/* текущая страница */, 10));
         var result = taskService.getAll(dto);
         return ResponseEntity.ok().header("X-Total-Count", String.valueOf(result.size())).body(result);
     }

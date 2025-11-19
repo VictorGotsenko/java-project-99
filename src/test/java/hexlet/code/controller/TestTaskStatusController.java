@@ -35,7 +35,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
-public class TestTaskStatusController {
+class TestTaskStatusController {
     @LocalServerPort
     private int port;
     @Autowired
@@ -65,14 +65,14 @@ public class TestTaskStatusController {
      * afterEach.
      */
     @AfterEach
-    public void clean() {
+    void clean() {
         taskStatusRepository.deleteAll();
     }
 
 
     @Test
     @DisplayName("R - Test get all")
-    public void testIndex() throws Exception {
+    void testIndex() throws Exception {
 
         MvcResult result = mockMvc.perform(get("/api/task_statuses").with(jwt()))
                 .andExpect(status().isOk())
@@ -84,7 +84,7 @@ public class TestTaskStatusController {
 
     @Test
     @DisplayName("R - Test get by Id")
-    public void testShow() throws Exception {
+    void testShow() throws Exception {
         MvcResult mvcResult = mockMvc.perform(get("/api/task_statuses/" + taskStatus.getId()).with(jwt()))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -95,7 +95,7 @@ public class TestTaskStatusController {
 
     @Test
     @DisplayName("R - Test get by No Id")
-    public void testShowNoId() throws Exception {
+    void testShowNoId() throws Exception {
         Long noId = 999L;
         mockMvc.perform(get("/api/task_statuses/" + noId).with(jwt()))
                 .andExpect(status().isNotFound())
@@ -106,7 +106,7 @@ public class TestTaskStatusController {
 
     @Test
     @DisplayName("C - Create task_statuses")
-    public void testCreate() throws Exception {
+    void testCreate() throws Exception {
         Map<String, String> data = new HashMap<>();
         data.put("name", "Reserve");
         data.put("slug", "reserve");
@@ -126,7 +126,7 @@ public class TestTaskStatusController {
 
     @Test
     @DisplayName("U - Update task_statuses")
-    public void testUpdate() throws Exception {
+    void testUpdate() throws Exception {
         Map<String, String> data = new HashMap<>();
         data.put("name", "Updated");
 
@@ -141,7 +141,7 @@ public class TestTaskStatusController {
 
     @Test
     @DisplayName("D - Delete task_statuses")
-    public void testDelete() throws Exception {
+    void testDelete() throws Exception {
         mockMvc.perform(delete("/api/task_statuses/" + taskStatus.getId()).with(jwt()))
                 .andExpect(status().isNoContent());
         assertThat(taskStatusRepository.existsById(taskStatus.getId())).isFalse();

@@ -33,7 +33,7 @@ public class TaskStatusService {
      */
     public TaskStatusDTO getById(Long id) {
         TaskStatus taskStatus = taskStatusRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Task with id " + id + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(" -=Not found=- Task Status with id: " + id));
         return taskStatusMapper.map(taskStatus);
     }
 

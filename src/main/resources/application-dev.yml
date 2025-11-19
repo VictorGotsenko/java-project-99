@@ -24,4 +24,4 @@ spring:
 jpa:
   hibernate:
   ddl-auto: update
-  database-platform: org.hibernate.dialect.H2Dialectue
+  database-platform: org.hibernate.dialect.H2Dialect

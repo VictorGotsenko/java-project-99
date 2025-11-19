@@ -24,11 +24,13 @@ import java.util.stream.Collectors;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@SuppressWarnings("java:S6813")
 public abstract class TaskMapper {
     @Autowired
-    private TaskStatusRepository taskStatusRepository;
+    private  TaskStatusRepository taskStatusRepository;
     @Autowired
-    private LabelRepository labelRepository;
+    private  LabelRepository labelRepository;
+
 
     @Mapping(target = "name", source = "title")
     @Mapping(target = "description", source = "content")
@@ -61,7 +63,6 @@ public abstract class TaskMapper {
     }
 
     /**
-     *
      * @param taskLabelIds
      * @return Set
      */
@@ -71,14 +72,16 @@ public abstract class TaskMapper {
         } else {
             Set<Label> result = new HashSet<>();
             for (Long n : taskLabelIds) {
-                result.add(labelRepository.findById(n).get());
+                var value = labelRepository.findById(n);
+                if (value.isPresent()) {
+                    result.add(value.get());
+                }
             }
             return result;
         }
     }
 
     /**
-     *
      * @param labels
      * @return Set
      */

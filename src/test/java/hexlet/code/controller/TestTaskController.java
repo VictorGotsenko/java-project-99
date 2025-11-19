@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
-public class TestTaskController {
+class TestTaskController {
     @LocalServerPort
     private int port;
 
@@ -85,14 +85,14 @@ public class TestTaskController {
      * afterEach.
      */
     @AfterEach
-    public void clean() {
+    void clean() {
         taskRepository.deleteAll();
         taskStatusRepository.deleteAll();
     }
 
     @Test
     @DisplayName("R - Test get all")
-    public void testIndex() throws Exception {
+    void testIndex() throws Exception {
 
         MvcResult result = mockMvc.perform(get("/api/tasks").with(jwt()))
                 .andExpect(status().isOk())
@@ -107,7 +107,7 @@ public class TestTaskController {
 
     @Test
     @DisplayName("R - Test get by Id")
-    public void testShow() throws Exception {
+    void testShow() throws Exception {
         MvcResult mvcResult = mockMvc.perform(get("/api/tasks/" + testTask.getId()).with(jwt()))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -117,7 +117,7 @@ public class TestTaskController {
 
     @Test
     @DisplayName("R - Test get by No Id")
-    public void testShowNoId() throws Exception {
+    void testShowNoId() throws Exception {
         Long noId = 999L;
         mockMvc.perform(get("/api/tasks/" + noId).with(jwt()))
                 .andExpect(status().isNotFound())
@@ -127,9 +127,7 @@ public class TestTaskController {
 
     @Test
     @DisplayName("R - Test get by Filter")
-    public void testFilter() throws Exception {
-//        String query = "?titleCont=ti&assigneeId=1&status=draft&labelId=1";
-//        String query = "?status=to_move1";
+    void testFilter() throws Exception {
         String query = "?titleCont=FF";
 
         Task taskForFiltr = new Task();
@@ -148,7 +146,7 @@ public class TestTaskController {
 
     @Test
     @DisplayName("C - Create task")
-    public void testCreate() throws Exception {
+    void testCreate() throws Exception {
         TaskCreateDTO taskCreateDTO = new TaskCreateDTO();
         taskCreateDTO.setTitle("Test title");
         taskCreateDTO.setContent("Test content");
@@ -165,7 +163,7 @@ public class TestTaskController {
 
     @Test
     @DisplayName("U - Update task")
-    public void testUpdate() throws Exception {
+    void testUpdate() throws Exception {
         TaskUpdateDTO updateDTO = new TaskUpdateDTO();
         updateDTO.setTitle(JsonNullable.of("Updated title"));
         updateDTO.setContent(JsonNullable.of("Description for task"));
@@ -181,7 +179,7 @@ public class TestTaskController {
 
     @Test
     @DisplayName("D - Delete task")
-    public void testDelete() throws Exception {
+    void testDelete() throws Exception {
         mockMvc.perform(delete("/api/tasks/" + testTask.getId()).with(jwt()))
                 .andExpect(status().isNoContent());
         assertThat(taskStatusRepository.existsById(testTask.getId())).isFalse();

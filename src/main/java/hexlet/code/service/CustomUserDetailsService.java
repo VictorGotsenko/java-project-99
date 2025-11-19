@@ -23,9 +23,8 @@ public class CustomUserDetailsService implements UserDetailsManager {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         // Нужно добавить в репозиторий findByEmail
-        var user = userRepository.findByEmail(email)
+        return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not found"));
-        return user;
     }
 
     /**
@@ -49,7 +48,6 @@ public class CustomUserDetailsService implements UserDetailsManager {
      */
     @Override
     public void updateUser(UserDetails user) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updateUser'");
     }
 
@@ -60,7 +58,6 @@ public class CustomUserDetailsService implements UserDetailsManager {
      */
     @Override
     public void deleteUser(String username) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'deleteUser'");
     }
 
@@ -72,7 +69,6 @@ public class CustomUserDetailsService implements UserDetailsManager {
      */
     @Override
     public void changePassword(String oldPassword, String newPassword) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'changePassword'");
     }
 
@@ -84,7 +80,6 @@ public class CustomUserDetailsService implements UserDetailsManager {
      */
     @Override
     public boolean userExists(String username) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'userExists'");
     }
 }

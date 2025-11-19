@@ -62,15 +62,4 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return exception.getMessage();
     }
 
-//    /**
-//     * Это функция handleOtherExceptions.
-//     *
-//     * @param ex Exception
-//     * @return getMessage
-//     */
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<String> handleOtherExceptions(Exception ex) {
-//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                .body("Error: " + ex.getMessage());
-//    }
 }

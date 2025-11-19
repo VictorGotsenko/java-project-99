@@ -38,7 +38,7 @@ public class TaskService {
      */
     public TaskDTO getById(Long id) {
         Task task = taskRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Task with id " + id + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(" -=Not found=- Task with id: " + id));
         return taskMapper.map(task);
     }
 

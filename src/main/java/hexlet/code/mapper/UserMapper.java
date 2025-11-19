@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@SuppressWarnings("java:S6813")
 public abstract class UserMapper {
     @Autowired
     private PasswordEncoder passwordEncoder;

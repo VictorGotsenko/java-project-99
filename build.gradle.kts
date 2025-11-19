@@ -8,6 +8,7 @@ plugins {
     id("org.springdoc.openapi-gradle-plugin") version "1.9.0"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.sonarqube") version "7.0.1.6134"
+    id("io.sentry.jvm.gradle") version "5.12.2"
 }
 
 group = "hexlet.code"
@@ -114,3 +115,30 @@ tasks.withType<JavaCompile>() {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+sentry {
+    // Generates a JVM (Java, Kotlin, etc.) source bundle and uploads your source code to Sentry.
+    // This enables source context, allowing you to see your source
+    // code as part of your stack traces in Sentry.
+    includeSourceContext = true
+
+    org = "sprojects-fj"
+    projectName = "java-project-99"
+    authToken = System.getenv("SENTRY_AUTH_TOKEN")
+}
+
+tasks.sentryBundleSourcesJava {
+    enabled = System.getenv("SENTRY_AUTH_TOKEN") != null
+}
+
+sonar {
+    properties {
+        property("sonar.projectKey", "VictorGotsenko_java-project-99")
+        property("sonar.organization", "victorgotsenko")
+        property("sonar.host.url", "https://sonarcloud.io")
+        // Отключаем проверку зависимостей
+        property("sonar.dependencyVerification.enabled", "false")
+    }
+}
+
+

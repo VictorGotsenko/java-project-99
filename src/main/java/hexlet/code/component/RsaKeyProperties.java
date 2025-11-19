@@ -17,12 +17,4 @@ public class RsaKeyProperties {
     private RSAPublicKey publicKey;
     private RSAPrivateKey privateKey;
 
-//    /**
-//     * void init.
-//     */
-//    @PostConstruct
-//    public void init() {
-//        System.out.println("Public key: " + publicKey);
-//        System.out.println("Private key " + privateKey);
-//    }
 }

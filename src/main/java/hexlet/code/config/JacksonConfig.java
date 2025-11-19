@@ -7,7 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 @Configuration
+@SuppressWarnings("java:S1118")
 public class JacksonConfig {
+
     @Bean
     public static Jackson2ObjectMapperBuilder objectMapperBuilder() {
         var builder = new Jackson2ObjectMapperBuilder();

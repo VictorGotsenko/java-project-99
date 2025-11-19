@@ -1,6 +1,6 @@
 package hexlet.code.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -25,15 +25,11 @@ import hexlet.code.service.CustomUserDetailsService;
 //@EnableMethodSecurity(prePostEnabled = true)
 @EnableMethodSecurity
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfig {
-    @Autowired
-    private JwtDecoder jwtDecoder;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private CustomUserDetailsService userService;
+    private final JwtDecoder jwtDecoder;
+    private final PasswordEncoder passwordEncoder;
+    private final CustomUserDetailsService userService;
 
     /**
      * @param http
@@ -47,9 +43,8 @@ public class SecurityConfig {
         // По умолчанию все запрещено
         return http
                 .csrf(csrf -> csrf.disable())
-                .headers(headers -> headers
-                        // Disables the X-Frame-Options header for vie H2 base
-                        .frameOptions(frameOptions -> frameOptions.disable()))
+                 // Disables the X-Frame-Options header for vie H2 base
+//                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/index.html").permitAll().requestMatchers("/favicon.ico").permitAll()
                         .requestMatchers("/").permitAll()
@@ -64,7 +59,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .oauth2ResourceServer((rs) -> rs.jwt((jwt) -> jwt.decoder(jwtDecoder)))
+                .oauth2ResourceServer(rs -> rs.jwt(jwt -> jwt.decoder(jwtDecoder)))
                 .httpBasic(Customizer.withDefaults())
                 .build();
     }
@@ -87,7 +82,6 @@ public class SecurityConfig {
     @Bean
     public AuthenticationProvider daoAuthProvider(AuthenticationManagerBuilder auth) {
         var provider = new DaoAuthenticationProvider(userService);
-//        provider.setUserDetailsService(userService);
         provider.setPasswordEncoder(passwordEncoder);
         return provider;
     }

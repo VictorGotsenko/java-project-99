@@ -34,7 +34,7 @@ public class UserService {
      */
     public UserDTO getById(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User with id " + id + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(" -=Not found=- User with id: " + id));
         return userMapper.map(user);
     }
 

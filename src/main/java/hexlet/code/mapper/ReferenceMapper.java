@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Mapper(
     componentModel = MappingConstants.ComponentModel.SPRING
 )
+@SuppressWarnings("java:S6813")
 public abstract class ReferenceMapper {
     @Autowired
     private EntityManager entityManager;
