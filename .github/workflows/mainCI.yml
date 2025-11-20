@@ -20,3 +20,5 @@ jobs:
       with:
         gradle-version: '8.8'
 
+    - name: Execute Gradle build
+      run: ./gradlew build
