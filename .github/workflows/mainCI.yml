@@ -21,4 +21,6 @@ jobs:
         gradle-version: '8.8'
 
     - name: Execute Gradle build
+      env:
+        SPRING_PROFILES_ACTIVE: "dev"
       run: ./gradlew build
