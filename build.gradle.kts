@@ -139,6 +139,7 @@ sonar {
 
         // Отключаем проверку зависимостей
         // property("sonar.dependencyVerification.enabled", "false")
+        property("sonar.log.level", "TRACE")
     }
 }
 
