@@ -10,8 +10,8 @@ logging:
 spring:
   profiles:
     #default: dev
-    active: dev
-    #active: prod
+    #active: dev
+    active: prod
   main:
     banner-mode: "off"
   output:
