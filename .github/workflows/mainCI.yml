@@ -25,6 +25,9 @@ jobs:
 
     - name: Execute Gradle build
       run: ./gradlew build --no-daemon -Dsentry.auth.token=${{ secrets.SENTRY_AUTH_TOKEN }}
+    
+    - name: Generate coverage report
+      run: ./gradlew jacocoTestReport
       
     - name: Cache SonarQube packages
       uses: actions/cache@v4
@@ -43,4 +46,4 @@ jobs:
     - name: Build and analyze
       env:  
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: ./gradlew build sonar --info 
+      run: ./gradlew sonar --info 
