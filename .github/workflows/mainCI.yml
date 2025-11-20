@@ -43,7 +43,7 @@ jobs:
         restore-keys: ${{ runner.os }}-gradle
     
     - name: Build and analyze
-        env:  
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SPRING_PROFILES_ACTIVE: "dev"
-        run: ./gradlew build sonar --info 
+      env:  
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SPRING_PROFILES_ACTIVE: "dev"
+      run: ./gradlew build sonar --info 
