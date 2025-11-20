@@ -7,6 +7,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      SPRING_PROFILES_ACTIVE: dev
     
     steps:
     - uses: actions/checkout@v4
@@ -21,12 +24,7 @@ jobs:
         gradle-version: '8.8'
 
     - name: Execute Gradle build
-      env:
-        SPRING_PROFILES_ACTIVE: "dev"
-      run: ./gradlew build
-      
-    - name: Generate coverage report
-      run: ./gradlew jacocoTestReport
+      run: ./gradlew build --no-daemon -Dsentry.auth.token=${{ secrets.SENTRY_AUTH_TOKEN }}
       
     - name: Cache SonarQube packages
       uses: actions/cache@v4
@@ -45,5 +43,4 @@ jobs:
     - name: Build and analyze
       env:  
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SPRING_PROFILES_ACTIVE: "dev"
       run: ./gradlew build sonar --info 
