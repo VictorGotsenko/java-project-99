@@ -136,6 +136,7 @@ sonar {
         property("sonar.projectKey", "VictorGotsenko_java-project-99")
         property("sonar.organization", "victorgotsenko")
         property("sonar.host.url", "https://sonarcloud.io")
+
         // Отключаем проверку зависимостей
         // property("sonar.dependencyVerification.enabled", "false")
     }
