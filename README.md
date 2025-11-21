@@ -3,7 +3,7 @@
 
 ## Task manager
 
-This is a application that allows you to track progress towards your goals through task management, like [Redmine](http://www.redmine.org) .
+This is an application that allows you to track progress towards your goals through task management, like [Redmine](http://www.redmine.org) .
 
 Allows you to create entities such as: password-protected users, tasks, labels and task tags. You can also filter by these parameters.
 
