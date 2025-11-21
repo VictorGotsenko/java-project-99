@@ -16,8 +16,10 @@ password: qwerty
 It can be used as a server application without a user interface (backend application).
  - The API can be found on the [page](https://java-project-99-5u14.onrender.com/swagger-ui/index.html)
 
-### To run locally
-Clone your copy and run
+### How to use
+- System requirements: Gradle 8.5 and Java ver.21 
+
+Clone the project locally and run:
 
 ```bash
 # run application in development mode
