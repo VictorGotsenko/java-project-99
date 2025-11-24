@@ -1,5 +1,9 @@
 .DEFAULT_GOAL := build-run
 
+define SPRING_PROFILES_ACTIVE
+dev
+endef
+
 clean:
 	./gradlew clean
 lint:
@@ -7,10 +11,10 @@ lint:
 build:
 	./gradlew clean build
 run:
-	./gradlew run --args='--spring.profiles.active=dev'	
+	./gradlew run
 test:
 	./gradlew test
 report:
-	./gradlew jacocoTestReport	
+	./gradlew jacocoTestReport
 
 build-run: build run
