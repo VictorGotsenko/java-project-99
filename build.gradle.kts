@@ -14,7 +14,7 @@ plugins {
 }
 
 
-group = "hexlet.code.app"
+group = "hexlet.code"
 version = "0.0.1-SNAPSHOT"
 description = "Project for Spring Boot"
 
