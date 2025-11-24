@@ -4,14 +4,17 @@ plugins {
     jacoco
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("com.github.ben-manes.versions") version "0.52.0"
-    id("org.springframework.boot") version "3.5.6"
+//    id("org.springframework.boot") version "3.5.6"
+    id("org.springframework.boot") version "3.5.8"
+//    id("org.springframework.boot") version "4.0.0"
     id("org.springdoc.openapi-gradle-plugin") version "1.9.0"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.sonarqube") version "7.0.1.6134"
     id("io.sentry.jvm.gradle") version "5.12.2"
 }
 
-group = "hexlet.code"
+
+group = "hexlet.code.app"
 version = "0.0.1-SNAPSHOT"
 description = "Project for Spring Boot"
 
@@ -27,12 +30,13 @@ java {
 
 repositories {
     mavenCentral()
-    maven { url = uri("https://repo.spring.io/milestone") }
-	maven { url = uri("https://repo.spring.io/snapshot") }
+//    maven { url = uri("https://repo.spring.io/milestone") }
+//	maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter")
+//    implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.boot:spring-boot-starter:4.0.0")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
