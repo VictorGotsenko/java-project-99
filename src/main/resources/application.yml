@@ -12,6 +12,8 @@ spring:
     #default: dev
     #active: dev
     active: prod
+  application:
+    name: app
   main:
     banner-mode: "off"
   output:
