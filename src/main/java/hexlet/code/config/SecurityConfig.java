@@ -1,6 +1,5 @@
 package hexlet.code.config;
 
-import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -25,11 +24,20 @@ import hexlet.code.service.CustomUserDetailsService;
 @EnableMethodSecurity(prePostEnabled = true)
 //@EnableMethodSecurity
 @EnableWebSecurity
-@AllArgsConstructor
 public class SecurityConfig {
     private final JwtDecoder jwtDecoder;
     private final PasswordEncoder passwordEncoder;
     private final CustomUserDetailsService userService;
+
+
+    public SecurityConfig(JwtDecoder jwtDecoder,
+                          PasswordEncoder passwordEncoder,
+                          CustomUserDetailsService userService) {
+        this.jwtDecoder = jwtDecoder;
+        this.passwordEncoder = passwordEncoder;
+        this.userService = userService;
+    }
+
 
     /**
      * @param http
