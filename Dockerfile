@@ -4,7 +4,6 @@ WORKDIR /
 
 COPY / .
 
-ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
 ENV SPRING_PROFILES_ACTIVE=dev
 
 RUN ./gradlew --no-daemon clean build --info
