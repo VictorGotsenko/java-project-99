@@ -21,9 +21,9 @@ import hexlet.code.service.CustomUserDetailsService;
 
 
 @Configuration
-@EnableMethodSecurity(prePostEnabled = true)
-//@EnableMethodSecurity
 @EnableWebSecurity
+@EnableMethodSecurity
+//@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
     private final JwtDecoder jwtDecoder;
     private final PasswordEncoder passwordEncoder;
@@ -51,22 +51,22 @@ public class SecurityConfig {
         // По умолчанию все запрещено
         return http
                 .csrf(csrf -> csrf.disable())
-                 // Disables the X-Frame-Options header for vie H2 base
-//                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/index.html").permitAll().requestMatchers("/favicon.ico").permitAll()
+                        // general
                         .requestMatchers("/").permitAll()
-                        .requestMatchers("/assets/**").permitAll()
                         .requestMatchers("/api/login").permitAll()
-                        .requestMatchers("/h2-console/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/welcome").permitAll()
+                        // frontend
+                        .requestMatchers("/index.html").permitAll().requestMatchers("/favicon.ico").permitAll()
+                        .requestMatchers("/assets/**").permitAll()
+                        // OpenAPI
                         .requestMatchers("/api-docs/**").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()
                         .requestMatchers("/swagger-ui.html").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/welcome").permitAll()
+//                        .requestMatchers("/h2-console/**").permitAll()
                         .anyRequest().authenticated())
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(rs -> rs.jwt(jwt -> jwt.decoder(jwtDecoder)))
                 .httpBasic(Customizer.withDefaults())
                 .build();
@@ -84,12 +84,16 @@ public class SecurityConfig {
     }
 
     /**
-     * @param auth
+     *
+     * @param passwordEncoder
+     * @param userService
      * @return AuthenticationProvider
      */
     @Bean
-    public AuthenticationProvider daoAuthProvider(AuthenticationManagerBuilder auth) {
-        var provider = new DaoAuthenticationProvider(userService);
+    public AuthenticationProvider daoAuthProvider(PasswordEncoder passwordEncoder,
+                                                  CustomUserDetailsService userService) {
+        var provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userService);
         provider.setPasswordEncoder(passwordEncoder);
         return provider;
     }

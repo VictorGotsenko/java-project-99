@@ -4,8 +4,8 @@ WORKDIR /
 
 COPY / .
 
-ENV SPRING_PROFILES_ACTIVE=dev
+ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
 
 RUN ./gradlew --no-daemon clean build
 
-CMD ["java", "-jar", "build/libs/java-project-99-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "build/libs/app-0.0.1-SNAPSHOT.jar"]
