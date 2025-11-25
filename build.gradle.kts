@@ -5,8 +5,6 @@ plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("com.github.ben-manes.versions") version "0.52.0"
     id("org.springframework.boot") version "3.5.6"
-//    id("org.springframework.boot") version "3.5.8"
-//    id("org.springframework.boot") version "4.0.0"
     id("org.springdoc.openapi-gradle-plugin") version "1.9.0"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.sonarqube") version "7.0.1.6134"
@@ -30,13 +28,21 @@ java {
 
 repositories {
     mavenCentral()
-//    maven { url = uri("https://repo.spring.io/milestone") }
-//	maven { url = uri("https://repo.spring.io/snapshot") }
 }
+
+val datafakerVer = "2.5.3"
+val lombokVer = "1.18.38"
+val webMVCuiVer = "2.8.13"
+val jacksonNullableVer = "0.2.6"
+val mapstructVer = "1.5.5.Final"
+val HikariCPVer = "6.3.0"
+val postgresqlVer = "42.7.7"
+val lmMapstructBndVer = "0.2.0"
+val assertjVer = "4.1.1"
+val instancioVer = "5.5.1"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
-//    implementation("org.springframework.boot:spring-boot-starter:4.0.0")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
@@ -44,31 +50,30 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-devtools")
     //
-    implementation("net.datafaker:datafaker:2.5.3")
-    // SpringDoc OpenAPI Starter WebMVC UI » 2.8.13
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13")
+    implementation("net.datafaker:datafaker:$datafakerVer")
+    // SpringDoc OpenAPI Starter WebMVC UI
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$webMVCuiVer")
     // модуль jackson-databind-nullable
-    implementation("org.openapitools:jackson-databind-nullable:0.2.6")
+    implementation("org.openapitools:jackson-databind-nullable:$jacksonNullableVer")
     // Mapstruct
-    implementation("org.mapstruct:mapstruct:1.5.5.Final")
+    implementation("org.mapstruct:mapstruct:$mapstructVer")
+    // DataBase section
+    implementation("com.zaxxer:HikariCP:$HikariCPVer")
+    runtimeOnly("com.h2database:h2") // database H2 & HikariCP
+    implementation("org.postgresql:postgresql:$postgresqlVer")
+
     // конфиг  Mapstruct не работает с классами, в которых используется lombok
     // https://ru.stackoverflow.com/questions/1286369
-    compileOnly("org.projectlombok:lombok:1.18.38")
-    compileOnly("org.mapstruct:mapstruct:1.5.5.Final")
-    annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
-    annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
-    annotationProcessor("org.projectlombok:lombok:1.18.38")
-    // DataBase section
-    implementation("com.zaxxer:HikariCP:6.3.0")
-    runtimeOnly("com.h2database:h2")
-    implementation("com.h2database:h2:") // database H2 & HikariCP
-    // for  driver class: org.postgresql.Driver
-    runtimeOnly("org.postgresql:postgresql")
-    implementation("org.postgresql:postgresql:42.7.7")
+    compileOnly("org.projectlombok:lombok:$lombokVer")
+    compileOnly("org.mapstruct:mapstruct:$mapstructVer")
+    annotationProcessor("org.projectlombok:lombok-mapstruct-binding:$lmMapstructBndVer")
+    annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVer")
+    annotationProcessor("org.projectlombok:lombok:$lombokVer")
+
     // *** Tests ***
-    testCompileOnly("org.projectlombok:lombok:1.18.38")
-    testAnnotationProcessor("org.projectlombok:lombok:1.18.38")
-    testAnnotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
+    testCompileOnly("org.projectlombok:lombok:$lombokVer")
+    testAnnotationProcessor("org.projectlombok:lombok:$lombokVer")
+    testAnnotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVer")
     //
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     // стартёр тестов
@@ -76,9 +81,9 @@ dependencies {
     // для аутентификации
     testImplementation("org.springframework.security:spring-security-test")
     // test JSON struct
-    testImplementation("net.javacrumbs.json-unit:json-unit-assertj:4.1.1")
+    testImplementation("net.javacrumbs.json-unit:json-unit-assertj:$assertjVer")
     // Instacio
-    testImplementation("org.instancio:instancio-junit:5.5.1")
+    testImplementation("org.instancio:instancio-junit:$instancioVer")
 }
 
 checkstyle {

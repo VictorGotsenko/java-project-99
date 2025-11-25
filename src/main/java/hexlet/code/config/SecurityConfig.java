@@ -23,7 +23,6 @@ import hexlet.code.service.CustomUserDetailsService;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-//@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
     private final JwtDecoder jwtDecoder;
     private final PasswordEncoder passwordEncoder;
@@ -48,10 +47,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, HandlerMappingIntrospector introspector)
             throws Exception {
-        // По умолчанию все запрещено
         return http
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
+                .authorizeHttpRequests(auth -> auth     // По умолчанию все запрещено
                         // general
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/api/login").permitAll()
@@ -83,17 +81,14 @@ public class SecurityConfig {
                 .build();
     }
 
+
     /**
-     *
-     * @param passwordEncoder
-     * @param userService
+     * @param auth
      * @return AuthenticationProvider
      */
     @Bean
-    public AuthenticationProvider daoAuthProvider(PasswordEncoder passwordEncoder,
-                                                  CustomUserDetailsService userService) {
-        var provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userService);
+    public AuthenticationProvider daoAuthProvider(AuthenticationManagerBuilder auth) {
+        var provider = new DaoAuthenticationProvider(userService);
         provider.setPasswordEncoder(passwordEncoder);
         return provider;
     }
