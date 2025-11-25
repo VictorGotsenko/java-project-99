@@ -81,14 +81,16 @@ public class SecurityConfig {
                 .build();
     }
 
-
     /**
-     * @param auth
+     *
+     * @param passwordEncoder
+     * @param userService
      * @return AuthenticationProvider
      */
-    @Bean
-    public AuthenticationProvider daoAuthProvider(AuthenticationManagerBuilder auth) {
-        var provider = new DaoAuthenticationProvider(userService);
+    public AuthenticationProvider daoAuthProvider(PasswordEncoder passwordEncoder,
+                                                  CustomUserDetailsService userService) {
+        var provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userService);
         provider.setPasswordEncoder(passwordEncoder);
         return provider;
     }

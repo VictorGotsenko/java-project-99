@@ -1,5 +1,5 @@
 [![Actions Status](https://github.com/VictorGotsenko/java-project-99/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/VictorGotsenko/java-project-99/actions)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=VictorGotsenko_java-project-99&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=VictorGotsenko_java-project-99)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=VictorGotsenko_java-project-99&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=VictorGotsenko_java-project-99)
 
 ## Task manager
 
