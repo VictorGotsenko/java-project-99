@@ -132,13 +132,14 @@ class TestTaskController {
 
         Task taskForFiltr = new Task();
         taskForFiltr.setName("task FF");
-        taskForFiltr.setDescription("task for filter");
+        taskForFiltr.setDescription("task for FF filter");
         taskForFiltr.setTaskStatus(testTask.getTaskStatus());
         taskRepository.save(taskForFiltr);
         MvcResult mvcResult = mockMvc.perform(get("/api/tasks" + query).with(jwt()))
                 .andExpect(status().isOk())
                 .andReturn();
         String body = mvcResult.getResponse().getContentAsString();
+
         assertThatJson(body).isArray().allSatisfy(cell ->
                 assertThatJson(cell)
                         .and(t -> t.node("title").isEqualTo(taskForFiltr.getName())));

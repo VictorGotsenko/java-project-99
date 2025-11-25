@@ -22,8 +22,8 @@ import hexlet.code.service.CustomUserDetailsService;
 
 
 @Configuration
-//@EnableMethodSecurity(prePostEnabled = true)
-@EnableMethodSecurity
+@EnableMethodSecurity(prePostEnabled = true)
+//@EnableMethodSecurity
 @EnableWebSecurity
 @AllArgsConstructor
 public class SecurityConfig {
