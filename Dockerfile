@@ -7,6 +7,6 @@ COPY / .
 ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
 ENV SPRING_PROFILES_ACTIVE=dev
 
-RUN ./gradlew --no-daemon clean build -Dorg.gradle.warning.mode=all
+RUN ./gradlew build --debug
 
 CMD ["java", "-jar", "build/libs/app-0.0.1-SNAPSHOT.jar"]
