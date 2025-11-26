@@ -5,7 +5,7 @@ import hexlet.code.dto.taskstatus.TaskStatusCreateDTO;
 import hexlet.code.dto.taskstatus.TaskStatusDTO;
 import hexlet.code.dto.taskstatus.TaskStatusUpdateDTO;
 import hexlet.code.repository.TaskStatusRepository;
-import hexlet.code.service.TaskStatusService;
+import hexlet.code.service.TaskStatusServiceImpl;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,14 +27,14 @@ import java.util.List;
 @AllArgsConstructor
 public class TaskStatusController {
     private final TaskStatusRepository taskStatusRepository;
-    private final TaskStatusService taskStatusService;
+    private final TaskStatusServiceImpl taskStatusServiceImpl;
 
     /**
      * @return List<TaskStatusDTO>
      */
     @GetMapping(path = "")
     public ResponseEntity<List<TaskStatusDTO>> index() {
-        var result = taskStatusService.getAll();
+        var result = taskStatusServiceImpl.getAll();
         return ResponseEntity.ok().header("X-Total-Count", String.valueOf(result.size())).body(result);
     }
 
@@ -45,7 +45,7 @@ public class TaskStatusController {
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public TaskStatusDTO show(@PathVariable long id) {
-        return taskStatusService.getById(id);
+        return taskStatusServiceImpl.getById(id);
     }
 
     /**
@@ -55,7 +55,7 @@ public class TaskStatusController {
     @PostMapping(path = "")
     @ResponseStatus(HttpStatus.CREATED)
     public TaskStatusDTO create(@Valid @RequestBody TaskStatusCreateDTO dto) {
-        return taskStatusService.create(dto);
+        return taskStatusServiceImpl.create(dto);
     }
 
     /**
@@ -66,7 +66,7 @@ public class TaskStatusController {
     @PutMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public TaskStatusDTO update(@PathVariable("id") Long id, @Valid @RequestBody TaskStatusUpdateDTO dto) {
-        return taskStatusService.update(id, dto);
+        return taskStatusServiceImpl.update(id, dto);
     }
 
     /**
@@ -75,6 +75,6 @@ public class TaskStatusController {
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable long id) {
-        taskStatusService.delete(id);
+        taskStatusServiceImpl.delete(id);
     }
 }

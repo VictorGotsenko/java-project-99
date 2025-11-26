@@ -4,7 +4,7 @@ package hexlet.code.controller;
 import hexlet.code.dto.user.UserCreateDTO;
 import hexlet.code.dto.user.UserUpdateDTO;
 import hexlet.code.repository.UserRepository;
-import hexlet.code.service.UserService;
+import hexlet.code.service.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,7 +35,7 @@ import java.util.List;
 public class UserController {
 
     private final UserRepository userRepository;
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
     /**
      * @return List<UserDTO>
@@ -43,7 +43,7 @@ public class UserController {
     @GetMapping(path = "")
 //    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<UserDTO>> index() {
-        var result = userService.getAll();
+        var result = userServiceImpl.getAll();
         return ResponseEntity.ok().header("X-Total-Count", String.valueOf(result.size())).body(result);
     }
 
@@ -54,7 +54,7 @@ public class UserController {
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UserDTO show(@PathVariable long id) {
-        return userService.getById(id);
+        return userServiceImpl.getById(id);
     }
 
 
@@ -67,7 +67,7 @@ public class UserController {
     @PostMapping(path = "")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO create(@Valid @RequestBody UserCreateDTO dto) {
-        return userService.create(dto);
+        return userServiceImpl.create(dto);
     }
 
     /**
@@ -79,7 +79,7 @@ public class UserController {
     @PutMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UserDTO update(@PathVariable("id") Long id, @Valid @RequestBody UserUpdateDTO dto) {
-        return userService.update(id, dto);
+        return userServiceImpl.update(id, dto);
     }
 
     /**
@@ -90,7 +90,7 @@ public class UserController {
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable long id) {
-        userService.delete(id);
+        userServiceImpl.delete(id);
     }
 
 

@@ -2,17 +2,17 @@ package hexlet.code.mapper;
 
 import hexlet.code.model.BaseEntity;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.TargetType;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(
     componentModel = MappingConstants.ComponentModel.SPRING
 )
-@SuppressWarnings("java:S6813")
+
 public abstract class ReferenceMapper {
-    @Autowired
+    @PersistenceContext
     private EntityManager entityManager;
 
     /**

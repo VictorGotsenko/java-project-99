@@ -1,6 +1,7 @@
 package hexlet.code.dto.label;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,5 +12,5 @@ public class LabelDTO {
     private Long id;
     private String name;
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 }

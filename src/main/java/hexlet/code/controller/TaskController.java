@@ -4,7 +4,7 @@ import hexlet.code.dto.task.TaskCreateDTO;
 import hexlet.code.dto.task.TaskDTO;
 import hexlet.code.dto.task.TaskParamsDTO;
 import hexlet.code.dto.task.TaskUpdateDTO;
-import hexlet.code.service.TaskService;
+import hexlet.code.service.TaskServiceImpl;
 import hexlet.code.specification.TaskSpecification;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TaskController {
 
-    private final TaskService taskService;
+    private final TaskServiceImpl taskServiceImpl;
     private final TaskSpecification specBuilder;
 
     /**
@@ -36,7 +36,7 @@ public class TaskController {
      */
     @GetMapping(path = "")
     public ResponseEntity<List<TaskDTO>> index(TaskParamsDTO dto) {
-        var result = taskService.getAll(dto);
+        var result = taskServiceImpl.getAll(dto);
         return ResponseEntity.ok().header("X-Total-Count", String.valueOf(result.size())).body(result);
     }
 
@@ -47,7 +47,7 @@ public class TaskController {
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public TaskDTO show(@PathVariable long id) {
-        return taskService.getById(id);
+        return taskServiceImpl.getById(id);
     }
 
     /**
@@ -57,7 +57,7 @@ public class TaskController {
     @PostMapping(path = "")
     @ResponseStatus(HttpStatus.CREATED)
     public TaskDTO create(@Valid @RequestBody TaskCreateDTO dto) {
-        return taskService.create(dto);
+        return taskServiceImpl.create(dto);
     }
 
     /**
@@ -68,7 +68,7 @@ public class TaskController {
     @PutMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public TaskDTO update(@PathVariable("id") Long id, @Valid @RequestBody TaskUpdateDTO dto) {
-        return taskService.update(id, dto);
+        return taskServiceImpl.update(id, dto);
     }
 
     /**
@@ -77,6 +77,6 @@ public class TaskController {
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable long id) {
-        taskService.delete(id);
+        taskServiceImpl.delete(id);
     }
 }

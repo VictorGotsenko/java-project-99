@@ -17,6 +17,8 @@ import org.mapstruct.ReportingPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -71,8 +73,11 @@ public abstract class TaskMapper {
             return new HashSet<>();
         } else {
             Set<Label> result = new HashSet<>();
+            List<Label> listLabels = labelRepository.findAll();
             for (Long n : taskLabelIds) {
-                var value = labelRepository.findById(n);
+                Optional<Label> value = listLabels.stream()
+                        .filter(v -> (v.getId() == n))
+                        .findFirst();
                 if (value.isPresent()) {
                     result.add(value.get());
                 }

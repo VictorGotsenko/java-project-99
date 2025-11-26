@@ -1,8 +1,12 @@
 package hexlet.code.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hexlet.code.dto.label.LabelDTO;
+import hexlet.code.mapper.LabelMapper;
 import hexlet.code.model.Label;
 import hexlet.code.repository.LabelRepository;
+import org.assertj.core.api.Assertions;
 import org.instancio.Instancio;
 import org.instancio.Select;
 import org.junit.jupiter.api.AfterEach;
@@ -18,6 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
@@ -44,6 +49,8 @@ class TestLabelController {
     private ObjectMapper objectMapper;
     @Autowired
     private LabelRepository labelRepository;
+    @Autowired
+    private LabelMapper labelMapper;
 
     private Label testLabel;
 
@@ -71,13 +78,15 @@ class TestLabelController {
     @Test
     @DisplayName("R - Test get all")
     void testIndex() throws Exception {
-
         MvcResult result = mockMvc.perform(get("/api/labels").with(jwt()))
                 .andExpect(status().isOk())
                 .andReturn();
-
         String body = result.getResponse().getContentAsString();
-        assertThatJson(body).isArray();
+        List<LabelDTO> labelDTOS = objectMapper.readValue(body, new TypeReference<>() {
+        });
+        var actual = labelDTOS.stream().map(labelMapper::map).toList();
+        var expected = labelRepository.findAll();
+        Assertions.assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
 
     }
 
@@ -87,7 +96,6 @@ class TestLabelController {
         MvcResult mvcResult = mockMvc.perform(get("/api/labels/" + testLabel.getId()).with(jwt()))
                 .andExpect(status().isOk())
                 .andReturn();
-
         String body = mvcResult.getResponse().getContentAsString();
         assertThatJson(body).and(t -> t.node("name").isEqualTo(testLabel.getName()));
     }
@@ -97,13 +105,11 @@ class TestLabelController {
     void testCreate() throws Exception {
         Map<String, String> data = new HashMap<>();
         data.put("name", "LaLabel");
-
         MvcResult mvcResult = mockMvc.perform(post("/api/labels").with(jwt())
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(data)))
                 .andExpect(status().isCreated())
                 .andReturn();
         Label label = labelRepository.findByName("LaLabel").get();
-
         String body = mvcResult.getResponse().getContentAsString();
         assertThatJson(body).and(t -> t.node("name").isEqualTo(data.get("name")));
         assertThat(label.getCreatedAt()).isNotNull();
@@ -113,7 +119,6 @@ class TestLabelController {
     @Test
     @DisplayName("U - Update task_statuses")
     void testUpdate() throws Exception {
-
         Map<String, String> data = new HashMap<>();
         data.put("name", "Updated");
 
@@ -121,7 +126,6 @@ class TestLabelController {
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(data)))
                 .andExpect(status().isOk())
                 .andReturn();
-
         String body = mvcResult.getResponse().getContentAsString();
         assertThatJson(body).and(t -> t.node("name").isEqualTo("Updated"));
     }
@@ -133,5 +137,4 @@ class TestLabelController {
                 .andExpect(status().isNoContent());
         assertThat(labelRepository.existsById(testLabel.getId())).isFalse();
     }
-
 }

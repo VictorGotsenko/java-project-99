@@ -23,6 +23,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -64,4 +65,27 @@ public class Task {
     )
     private Set<Label> labels = new HashSet<>();
 
+    /**
+     * @return int
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
+    /**
+     * @param o
+     * @return boolean
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Label label = (Label) o;
+        return id == label.getId() && name.equals(label.getName());
+    }
 }

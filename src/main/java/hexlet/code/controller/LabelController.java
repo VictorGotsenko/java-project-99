@@ -3,7 +3,7 @@ package hexlet.code.controller;
 import hexlet.code.dto.label.LabelCreateDTO;
 import hexlet.code.dto.label.LabelDTO;
 import hexlet.code.dto.label.LabelUpdateDTO;
-import hexlet.code.service.LabelService;
+import hexlet.code.service.LabelServiceImpl;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ import java.util.List;
 @RequestMapping("/api/labels")
 @AllArgsConstructor
 public class LabelController {
-    private final LabelService labelService;
+    private final LabelServiceImpl labelServiceImpl;
 
     /**
      *
@@ -32,7 +32,7 @@ public class LabelController {
      */
     @GetMapping(path = "")
     public ResponseEntity<List<LabelDTO>> index() {
-        var result = labelService.getAll();
+        var result = labelServiceImpl.getAll();
         return ResponseEntity.ok().header("X-Total-Count", String.valueOf(result.size())).body(result);
     }
 
@@ -44,7 +44,7 @@ public class LabelController {
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public LabelDTO show(@PathVariable long id) {
-        return labelService.getById(id);
+        return labelServiceImpl.getById(id);
     }
 
     /**
@@ -55,7 +55,7 @@ public class LabelController {
     @PostMapping(path = "")
     @ResponseStatus(HttpStatus.CREATED)
     public LabelDTO create(@Valid @RequestBody LabelCreateDTO dto) {
-        return labelService.create(dto);
+        return labelServiceImpl.create(dto);
     }
 
     /**
@@ -67,7 +67,7 @@ public class LabelController {
     @PutMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public LabelDTO update(@PathVariable("id") Long id, @Valid @RequestBody LabelUpdateDTO dto) {
-        return labelService.update(id, dto);
+        return labelServiceImpl.update(id, dto);
     }
 
     /**
@@ -77,6 +77,6 @@ public class LabelController {
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable long id) {
-        labelService.delete(id);
+        labelServiceImpl.delete(id);
     }
 }
