@@ -21,6 +21,7 @@ public class TaskStatusServiceImpl implements TaskStatusService {
     /**
      * @return List<TaskStatusDTO>
      */
+    @Override
     public List<TaskStatusDTO> getAll() {
         return taskStatusRepository.findAll().stream()
                 .map(taskStatusMapper::map)
@@ -31,6 +32,7 @@ public class TaskStatusServiceImpl implements TaskStatusService {
      * @param id
      * @return TaskStatusDTO
      */
+    @Override
     public TaskStatusDTO getById(Long id) {
         TaskStatus taskStatus = taskStatusRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(" -=Not found=- Task Status with id: " + id));
@@ -41,6 +43,7 @@ public class TaskStatusServiceImpl implements TaskStatusService {
      * @param dto
      * @return TaskStatusDTO
      */
+    @Override
     public TaskStatusDTO create(TaskStatusCreateDTO dto) {
         TaskStatus taskStatus = taskStatusMapper.map(dto);
         taskStatusRepository.save(taskStatus);
@@ -52,6 +55,7 @@ public class TaskStatusServiceImpl implements TaskStatusService {
      * @param dto
      * @return List<TaskStatusDTO>
      */
+    @Override
     public TaskStatusDTO update(Long id, TaskStatusUpdateDTO dto) {
         TaskStatus taskStatus = taskStatusRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Task Status with id " + id + " not found"));
@@ -63,6 +67,7 @@ public class TaskStatusServiceImpl implements TaskStatusService {
     /**
      * @param id
      */
+    @Override
     public void delete(Long id) {
         TaskStatus taskStatus = taskStatusRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Task Status with id " + id + " not found"));

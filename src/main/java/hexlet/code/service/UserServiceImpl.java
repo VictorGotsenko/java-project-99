@@ -22,6 +22,7 @@ public class UserServiceImpl implements UserService {
     /**
      * @return List<UserDTO>
      */
+    @Override
     public List<UserDTO> getAll() {
         return userRepository.findAll().stream()
                 .map(userMapper::map)
@@ -32,6 +33,7 @@ public class UserServiceImpl implements UserService {
      * @param id
      * @return UserDTO
      */
+    @Override
     public UserDTO getById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(" -=Not found=- User with id: " + id));
@@ -42,6 +44,7 @@ public class UserServiceImpl implements UserService {
      * @param dto
      * @return UserDTO
      */
+    @Override
     public UserDTO create(UserCreateDTO dto) {
         User user = userMapper.map(dto);
         userRepository.save(user);
@@ -53,6 +56,7 @@ public class UserServiceImpl implements UserService {
      * @param dto
      * @return UserDTO
      */
+    @Override
     public UserDTO update(Long id, UserUpdateDTO dto) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User with id " + id + " not found"));
@@ -64,6 +68,7 @@ public class UserServiceImpl implements UserService {
     /**
      * @param id
      */
+    @Override
     public void delete(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User with id " + id + " not found"));

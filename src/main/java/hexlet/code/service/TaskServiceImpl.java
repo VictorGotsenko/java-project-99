@@ -25,6 +25,7 @@ public class TaskServiceImpl implements TaskService {
      * @param dto
      * @return List<TaskDTO>
      */
+    @Override
     public List<TaskDTO> getAll(TaskParamsDTO dto) {
         var spec = taskSpecification.build(dto);
         return taskRepository.findAll(spec).stream()
@@ -36,6 +37,7 @@ public class TaskServiceImpl implements TaskService {
      * @param id
      * @return TaskDTO
      */
+    @Override
     public TaskDTO getById(Long id) {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(" -=Not found=- Task with id: " + id));
@@ -46,6 +48,7 @@ public class TaskServiceImpl implements TaskService {
      * @param dto
      * @return TaskDTO
      */
+    @Override
     public TaskDTO create(TaskCreateDTO dto) {
         Task task = taskMapper.map(dto);
         taskRepository.save(task);
@@ -57,6 +60,7 @@ public class TaskServiceImpl implements TaskService {
      * @param dto
      * @return TaskDTO
      */
+    @Override
     public TaskDTO update(Long id, TaskUpdateDTO dto) {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Task with id " + id + " not found"));
@@ -69,6 +73,7 @@ public class TaskServiceImpl implements TaskService {
     /**
      * @param id
      */
+    @Override
     public void delete(Long id) {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Task with id " + id + " not found"));

@@ -17,13 +17,14 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class LabelServiceImpl implements LabelService  {
+public class LabelServiceImpl implements LabelService {
     private final LabelRepository labelRepository;
     private final LabelMapper labelMapper;
 
     /**
      * @return List
      */
+    @Override
     public List<LabelDTO> getAll() {
         return labelRepository.findAll().stream()
                 .map(labelMapper::map)
@@ -34,6 +35,7 @@ public class LabelServiceImpl implements LabelService  {
      * @param id
      * @return LabelDTO
      */
+    @Override
     public LabelDTO getById(Long id) {
         Label label = labelRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(" -=Not found=- Label with id: " + id));
@@ -44,6 +46,7 @@ public class LabelServiceImpl implements LabelService  {
      * @param dto
      * @return LabelDTO
      */
+    @Override
     public LabelDTO create(LabelCreateDTO dto) {
         Label label = labelMapper.map(dto);
         labelRepository.save(label);
@@ -55,6 +58,7 @@ public class LabelServiceImpl implements LabelService  {
      * @param dto
      * @return LabelDTO
      */
+    @Override
     public LabelDTO update(Long id, LabelUpdateDTO dto) {
         Label label = labelRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Label with id " + id + " not found"));
@@ -68,6 +72,7 @@ public class LabelServiceImpl implements LabelService  {
      * @param id
      */
     // Если метка связана с задачей, удалить её нельзя - этим занимается Hibernate
+    @Override
     public void delete(Long id) {
         Label label = labelRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Label with id " + id + " not found"));
