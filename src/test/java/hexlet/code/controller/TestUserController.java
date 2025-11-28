@@ -1,9 +1,12 @@
 package hexlet.code.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.dto.AuthRequest;
 import hexlet.code.dto.user.UserCreateDTO;
+import hexlet.code.dto.user.UserDTO;
 import hexlet.code.dto.user.UserUpdateDTO;
+import hexlet.code.mapper.UserMapper;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.util.JWTUtils;
@@ -29,10 +32,11 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 
@@ -52,6 +56,8 @@ class TestUserController {
     private JWTUtils jwtUtils;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserMapper userMapper;
     private Faker faker = new Faker();
     private User testUser;
     private String token;
@@ -64,11 +70,10 @@ class TestUserController {
         testUser = new User();
         testUser = Instancio.of(User.class)
                 .ignore(Select.field(User::getId))
+                .supply(Select.field(User::getEmail), () -> faker.internet().emailAddress())
                 .ignore(Select.field(User::getCreatedAt))
                 .ignore(Select.field(User::getUpdatedAt))
-                .supply(Select.field(User::getEmail), () -> faker.internet().emailAddress())
                 .create();
-
         userRepository.save(testUser);
         token = jwtUtils.generateToken("hexlet@example.com");
     }
@@ -152,7 +157,7 @@ class TestUserController {
 
     @Test
     @DisplayName("R - Test get all")
-    void testIndex() {
+    void testIndex() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
         HttpEntity<String> entity = new HttpEntity<>(headers);
@@ -161,8 +166,18 @@ class TestUserController {
         ResponseEntity<String> response = testRestTemplate
                 .exchange(reqUrl, HttpMethod.GET, entity, String.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertNotNull(response.getBody());
-        assertThatJson(response.getBody()).isArray();
+
+        String body = response.getBody();
+        List<UserDTO> userDTOS = objectMapper.readValue(body, new TypeReference<>() {
+        });
+        var actual = userDTOS.stream().map(userMapper::map).toList();
+        var expected = userRepository.findAll();
+
+        assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("passwordDigest", "createdAt", "updatedAt")
+                .isEqualTo(expected);
+//        Assertions.assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
 
     @Test

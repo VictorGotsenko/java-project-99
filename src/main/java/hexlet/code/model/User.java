@@ -19,7 +19,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -28,7 +28,6 @@ import java.util.Collection;
 @Setter
 @RequiredArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-
 @Table(name = "users")
 @Schema(description = "User data model")
 public class User implements BaseEntity,  UserDetails {
@@ -60,10 +59,10 @@ public class User implements BaseEntity,  UserDetails {
     @Schema(description = "User creation date")
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     @LastModifiedDate
-    private LocalDateTime updatedAt;
+    private LocalDate updatedAt;
 
     /**
      *

@@ -1,10 +1,13 @@
 package hexlet.code.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hexlet.code.dto.taskstatus.TaskStatusDTO;
 import hexlet.code.exeption.ResourceNotFoundException;
 import hexlet.code.mapper.TaskStatusMapper;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.repository.TaskStatusRepository;
+import org.assertj.core.api.Assertions;
 import org.instancio.Instancio;
 import org.instancio.Select;
 import org.junit.jupiter.api.AfterEach;
@@ -29,6 +32,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -46,7 +50,7 @@ class TestTaskStatusController {
     private TaskStatusRepository taskStatusRepository;
     @Autowired
     private TaskStatusMapper taskStatusMapper;
-    private TaskStatus taskStatus;
+    private TaskStatus testTaskStatus;
 
     /**
      * setUp.
@@ -54,11 +58,13 @@ class TestTaskStatusController {
     @BeforeEach
     void setUp() {
         taskStatusRepository.deleteAll();
-        taskStatus = Instancio.of(TaskStatus.class)
+        testTaskStatus = Instancio.of(TaskStatus.class)
                 .ignore(Select.field(TaskStatus::getId))
+                .set(Select.field("name"), "testName")
+                .set(Select.field("slug"), "test_slug")
                 .ignore(Select.field((TaskStatus::getCreatedAt)))
                 .create();
-        taskStatusRepository.save(taskStatus);
+        taskStatusRepository.save(testTaskStatus);
     }
 
     /**
@@ -69,28 +75,35 @@ class TestTaskStatusController {
         taskStatusRepository.deleteAll();
     }
 
-
     @Test
     @DisplayName("R - Test get all")
     void testIndex() throws Exception {
-
         MvcResult result = mockMvc.perform(get("/api/task_statuses").with(jwt()))
                 .andExpect(status().isOk())
                 .andReturn();
 
         String body = result.getResponse().getContentAsString();
-        assertThatJson(body).isArray();
+        List<TaskStatusDTO> taskStatusDTOS = objectMapper.readValue(body, new TypeReference<>() {
+        });
+        var actual = taskStatusDTOS.stream().map(taskStatusMapper::map).toList();
+        var expected = taskStatusRepository.findAll();
+
+        Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("createdAt")
+                .isEqualTo(expected);
+//        Assertions.assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
 
     @Test
     @DisplayName("R - Test get by Id")
     void testShow() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/api/task_statuses/" + taskStatus.getId()).with(jwt()))
+        MvcResult mvcResult = mockMvc.perform(get("/api/task_statuses/" + testTaskStatus.getId()).with(jwt()))
                 .andExpect(status().isOk())
                 .andReturn();
 
         String body = mvcResult.getResponse().getContentAsString();
-        assertThatJson(body).and(t -> t.node("name").isEqualTo(taskStatus.getName()));
+        assertThatJson(body).and(t -> t.node("name").isEqualTo(testTaskStatus.getName()));
     }
 
     @Test
@@ -130,7 +143,7 @@ class TestTaskStatusController {
         Map<String, String> data = new HashMap<>();
         data.put("name", "Updated");
 
-        MvcResult mvcResult = mockMvc.perform(put("/api/task_statuses/" + taskStatus.getId()).with(jwt())
+        MvcResult mvcResult = mockMvc.perform(put("/api/task_statuses/" + testTaskStatus.getId()).with(jwt())
                         .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(data)))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -142,8 +155,8 @@ class TestTaskStatusController {
     @Test
     @DisplayName("D - Delete task_statuses")
     void testDelete() throws Exception {
-        mockMvc.perform(delete("/api/task_statuses/" + taskStatus.getId()).with(jwt()))
+        mockMvc.perform(delete("/api/task_statuses/" + testTaskStatus.getId()).with(jwt()))
                 .andExpect(status().isNoContent());
-        assertThat(taskStatusRepository.existsById(taskStatus.getId())).isFalse();
+        assertThat(taskStatusRepository.existsById(testTaskStatus.getId())).isFalse();
     }
 }

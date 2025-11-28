@@ -1,7 +1,9 @@
 package hexlet.code.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.dto.task.TaskCreateDTO;
+import hexlet.code.dto.task.TaskDTO;
 import hexlet.code.dto.task.TaskUpdateDTO;
 import hexlet.code.exeption.ResourceNotFoundException;
 import hexlet.code.mapper.TaskMapper;
@@ -10,6 +12,7 @@ import hexlet.code.model.TaskStatus;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.TaskStatusRepository;
 import net.datafaker.Faker;
+import org.assertj.core.api.Assertions;
 import org.instancio.Instancio;
 import org.instancio.Select;
 import org.junit.jupiter.api.AfterEach;
@@ -24,6 +27,8 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.http.MediaType;
+
+import java.util.List;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
@@ -98,11 +103,12 @@ class TestTaskController {
                 .andExpect(status().isOk())
                 .andReturn();
         String body = result.getResponse().getContentAsString();
-        assertThatJson(body).isArray().allSatisfy(cell ->
-                assertThatJson(cell)
-                        .and(t -> t.node("title").isEqualTo(testTask.getName()))
-                        .and(t -> t.node("status").isEqualTo(testTask.getTaskStatus().getSlug())));
+        List<TaskDTO> taskDTOS = objectMapper.readValue(body, new TypeReference<>() {
+        });
 
+        var actual = taskDTOS.stream().map(taskMapper::map).toList();
+        var expected = taskRepository.findAll();
+        Assertions.assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
 
     @Test

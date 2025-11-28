@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,10 +28,9 @@ import java.util.stream.Collectors;
 @SuppressWarnings("java:S6813")
 public abstract class TaskMapper {
     @Autowired
-    private  TaskStatusRepository taskStatusRepository;
+    private TaskStatusRepository taskStatusRepository;
     @Autowired
-    private  LabelRepository labelRepository;
-
+    private LabelRepository labelRepository;
 
     @Mapping(target = "name", source = "title")
     @Mapping(target = "description", source = "content")
@@ -47,6 +45,13 @@ public abstract class TaskMapper {
     @Mapping(target = "assigneeId", source = "assignee.id")
     @Mapping(target = "taskLabelIds", source = "labels") // , qualifiedByName = "mapTaskLabel")
     public abstract TaskDTO map(Task model);
+
+    @Mapping(target = "name", source = "title")
+    @Mapping(target = "description", source = "content")
+    @Mapping(target = "taskStatus.slug", source = "status")
+    @Mapping(target = "assignee.id", source = "assigneeId")
+    @Mapping(target = "labels", source = "taskLabelIds")
+    public abstract Task map(TaskDTO model);   // for test
 
     @Mapping(target = "name", source = "title")
     @Mapping(target = "description", source = "content")
@@ -72,17 +77,8 @@ public abstract class TaskMapper {
         if (taskLabelIds == null) {
             return new HashSet<>();
         } else {
-            Set<Label> result = new HashSet<>();
-            List<Label> listLabels = labelRepository.findAll();
-            for (Long n : taskLabelIds) {
-                Optional<Label> value = listLabels.stream()
-                        .filter(v -> (v.getId() == n))
-                        .findFirst();
-                if (value.isPresent()) {
-                    result.add(value.get());
-                }
-            }
-            return result;
+            List<Label> listLabels = labelRepository.findAllById(taskLabelIds);
+            return new HashSet<>(listLabels);
         }
     }
 

@@ -1,6 +1,5 @@
 package hexlet.code.model;
 
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,29 +15,33 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Getter
 @Setter
 
 @Entity
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "tasks")
 public class Task {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @NotNull
     @Size(min = 1)
+    @EqualsAndHashCode.Include
     private String name; //Обязательное. Минимум 1 символ. Названия задач могут быть любыми
 
     private Integer index; //Необязательное, целое число. Нужно для прав-го отображ. задач во фронте
@@ -54,7 +57,7 @@ public class Task {
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     //задачи могут иметь разные метки
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -64,28 +67,4 @@ public class Task {
             inverseJoinColumns = @JoinColumn(name = "label_id")
     )
     private Set<Label> labels = new HashSet<>();
-
-    /**
-     * @return int
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
-
-    /**
-     * @param o
-     * @return boolean
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Label label = (Label) o;
-        return id == label.getId() && name.equals(label.getName());
-    }
 }

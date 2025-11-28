@@ -1,6 +1,5 @@
 package hexlet.code.model;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -18,7 +17,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Getter
@@ -36,11 +35,13 @@ public class Label {
     @NotBlank
     @Column(unique = true)
     @Size(min = 3, max = 1000)
+    @EqualsAndHashCode.Include
     private String name;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @EqualsAndHashCode.Include
+    private LocalDate createdAt;
 
     //разные метки назначены разным задачам (полагаю метки уникальные)
     @ManyToMany(mappedBy = "labels", fetch = FetchType.EAGER)
