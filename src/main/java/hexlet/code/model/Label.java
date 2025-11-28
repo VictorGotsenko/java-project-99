@@ -30,6 +30,7 @@ public class Label {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @NotBlank
@@ -40,7 +41,6 @@ public class Label {
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    @EqualsAndHashCode.Include
     private LocalDate createdAt;
 
     //разные метки назначены разным задачам (полагаю метки уникальные)
