@@ -11,9 +11,9 @@ import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.util.JWTUtils;
 import net.datafaker.Faker;
+import org.assertj.core.api.Assertions;
 import org.instancio.Instancio;
 import org.instancio.Select;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -67,6 +67,7 @@ class TestUserController {
      */
     @BeforeEach
     void setUp() {
+        userRepository.deleteAll();
         testUser = new User();
         testUser = Instancio.of(User.class)
                 .ignore(Select.field(User::getId))
@@ -76,14 +77,6 @@ class TestUserController {
                 .create();
         userRepository.save(testUser);
         token = jwtUtils.generateToken("hexlet@example.com");
-    }
-
-    /**
-     * afterEach.
-     */
-    @AfterEach
-    void clean() {
-        userRepository.deleteAll();
     }
 
     @Test
@@ -173,11 +166,7 @@ class TestUserController {
         var actual = userDTOS.stream().map(userMapper::map).toList();
         var expected = userRepository.findAll();
 
-        assertThat(actual)
-                .usingRecursiveComparison()
-                .ignoringFields("passwordDigest", "createdAt", "updatedAt")
-                .isEqualTo(expected);
-//        Assertions.assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
+        Assertions.assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
 
     @Test

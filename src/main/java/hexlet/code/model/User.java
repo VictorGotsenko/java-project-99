@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -27,15 +28,17 @@ import java.util.Collection;
 @Getter
 @Setter
 @RequiredArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
 @Schema(description = "User data model")
-public class User implements BaseEntity,  UserDetails {
+public class User implements BaseEntity, UserDetails {
 
     @Id
     @Schema(description = "User ID",
             example = "123")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -43,6 +46,7 @@ public class User implements BaseEntity,  UserDetails {
             example = "Tom",
             requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank
+    @EqualsAndHashCode.Include
     private String firstName;
     @NotBlank
     private String lastName;
@@ -65,7 +69,6 @@ public class User implements BaseEntity,  UserDetails {
     private LocalDate updatedAt;
 
     /**
-     *
      * @return String
      */
     @Override
@@ -74,7 +77,6 @@ public class User implements BaseEntity,  UserDetails {
     }
 
     /**
-     *
      * @return String
      */
     @Override
@@ -83,7 +85,6 @@ public class User implements BaseEntity,  UserDetails {
     }
 
     /**
-     *
      * @return GrantedAuthority
      */
     @Override

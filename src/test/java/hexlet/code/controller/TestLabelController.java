@@ -9,7 +9,6 @@ import hexlet.code.repository.LabelRepository;
 import org.assertj.core.api.Assertions;
 import org.instancio.Instancio;
 import org.instancio.Select;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,7 +33,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
-
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -42,7 +40,6 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 class TestLabelController {
     @LocalServerPort
     private int port;
-
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -59,20 +56,13 @@ class TestLabelController {
      */
     @BeforeEach
     void initTests() {
+        labelRepository.deleteAll();
         testLabel = Instancio.of(Label.class)
                 .ignore(Select.field(Label::getId))
                 .set(Select.field("name"), "testLabel")
                 .ignore(Select.field((Label::getCreatedAt)))
                 .create();
         labelRepository.save(testLabel);
-    }
-
-    /**
-     * afterEach.
-     */
-    @AfterEach
-    void clean() {
-        labelRepository.deleteAll();
     }
 
     @Test
@@ -87,7 +77,6 @@ class TestLabelController {
         var actual = labelDTOS.stream().map(labelMapper::map).toList();
         var expected = labelRepository.findAll();
         Assertions.assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
-
     }
 
     @Test

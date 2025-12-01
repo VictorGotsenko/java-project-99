@@ -15,7 +15,6 @@ import net.datafaker.Faker;
 import org.assertj.core.api.Assertions;
 import org.instancio.Instancio;
 import org.instancio.Select;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -61,12 +60,13 @@ class TestTaskController {
     private Task testTask;
     private TaskStatus taskStatus;
 
-
     /**
      * setUp.
      */
     @BeforeEach
     void setUp() {
+        taskRepository.deleteAll();
+        taskStatusRepository.deleteAll();
         taskStatus = Instancio.of(TaskStatus.class)
                 .ignore(Select.field(TaskStatus::getId))
                 .supply(Select.field(TaskStatus::getName), () -> "Move1")
@@ -84,15 +84,6 @@ class TestTaskController {
                 .ignore(Select.field(Task::getCreatedAt))
                 .create();
         taskRepository.save(testTask);
-    }
-
-    /**
-     * afterEach.
-     */
-    @AfterEach
-    void clean() {
-        taskRepository.deleteAll();
-        taskStatusRepository.deleteAll();
     }
 
     @Test

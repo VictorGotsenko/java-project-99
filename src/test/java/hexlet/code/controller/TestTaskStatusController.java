@@ -6,11 +6,11 @@ import hexlet.code.dto.taskstatus.TaskStatusDTO;
 import hexlet.code.exeption.ResourceNotFoundException;
 import hexlet.code.mapper.TaskStatusMapper;
 import hexlet.code.model.TaskStatus;
+import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.TaskStatusRepository;
 import org.assertj.core.api.Assertions;
 import org.instancio.Instancio;
 import org.instancio.Select;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -50,6 +50,9 @@ class TestTaskStatusController {
     private TaskStatusRepository taskStatusRepository;
     @Autowired
     private TaskStatusMapper taskStatusMapper;
+    @Autowired
+    private TaskRepository taskRepository;
+
     private TaskStatus testTaskStatus;
 
     /**
@@ -57,6 +60,7 @@ class TestTaskStatusController {
      */
     @BeforeEach
     void setUp() {
+        taskRepository.deleteAll();
         taskStatusRepository.deleteAll();
         testTaskStatus = Instancio.of(TaskStatus.class)
                 .ignore(Select.field(TaskStatus::getId))
@@ -65,14 +69,6 @@ class TestTaskStatusController {
                 .ignore(Select.field((TaskStatus::getCreatedAt)))
                 .create();
         taskStatusRepository.save(testTaskStatus);
-    }
-
-    /**
-     * afterEach.
-     */
-    @AfterEach
-    void clean() {
-        taskStatusRepository.deleteAll();
     }
 
     @Test
@@ -88,11 +84,7 @@ class TestTaskStatusController {
         var actual = taskStatusDTOS.stream().map(taskStatusMapper::map).toList();
         var expected = taskStatusRepository.findAll();
 
-        Assertions.assertThat(actual)
-                .usingRecursiveComparison()
-                .ignoringFields("createdAt")
-                .isEqualTo(expected);
-//        Assertions.assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
+        Assertions.assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
 
     @Test
